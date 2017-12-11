@@ -16,7 +16,6 @@ import java.util.List;
 public class CommentBean {
 
     private long userId;
-    private List<String> topComments;
     private boolean moreHot;
     private List<HotComments> hotComments;
     private long code;
@@ -28,12 +27,6 @@ public class CommentBean {
 	}
 	public void setUserId(long userId) {
 		this.userId = userId;
-	}
-	public List<String> getTopComments() {
-		return topComments;
-	}
-	public void setTopComments(List<String> topComments) {
-		this.topComments = topComments;
 	}
 	public boolean isMoreHot() {
 		return moreHot;

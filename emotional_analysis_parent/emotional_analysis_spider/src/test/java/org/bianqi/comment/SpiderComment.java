@@ -179,10 +179,11 @@ public class SpiderComment {
 	@Test
 	public void test2() throws Exception{
 		long start = System.currentTimeMillis();
+		long songId = 479574796;
 		String secKey = new BigInteger(100, new SecureRandom()).toString(32).substring(0, 16);//limit
 		String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"offset\":"+ 0 * 10 +",\"limit\":"+10+"};","0CoJUm6Qyw8W8jud"), secKey);
         String encSecKey = EncryptUtils.rsaEncrypt(secKey);
-	    Response execute = Jsoup.connect("http://music.163.com/weapi/v1/resource/comments/R_SO_4_"+465920905+"?csrf_token=2032a8f34f1f92412a49ba3d6f68b2db")
+	    Response execute = Jsoup.connect("http://music.163.com/weapi/v1/resource/comments/R_SO_4_"+songId+"?csrf_token=2032a8f34f1f92412a49ba3d6f68b2db")
 				.data("params",encText)
 				.data("encSecKey",encSecKey)
 				.header("User-Agent", "Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.79 Safari/537.36")
@@ -202,7 +203,7 @@ public class SpiderComment {
 		long total = readValue.getTotal();
 		long pageSize = total / 10;
 		ForkJoinPool pool = new ForkJoinPool();
-		ForkJoinTask<Long> task = new ForkJoinCalculate(0L, pageSize,465920905);
+		ForkJoinTask<Long> task = new ForkJoinCalculate(0L, pageSize,songId);
 		pool.invoke(task);
 		long end = System.currentTimeMillis();
 		System.out.println("耗费的时间为: " + (end - start));
