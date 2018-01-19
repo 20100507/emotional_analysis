@@ -1,6 +1,5 @@
 package org.bianqi.followering;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
@@ -20,7 +19,7 @@ public class FollowingTest {
 	@Test
 	public void test3() throws Exception{
 			String secKey = new BigInteger(100, new SecureRandom()).toString(32).substring(0, 16);
-	        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
+	        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"uid\":2768563,\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
 	        String encSecKey = EncryptUtils.rsaEncrypt(secKey);
 		    Response execute = Jsoup.connect("http://music.163.com/weapi/user/getfolloweds")
 					.data("params",encText)

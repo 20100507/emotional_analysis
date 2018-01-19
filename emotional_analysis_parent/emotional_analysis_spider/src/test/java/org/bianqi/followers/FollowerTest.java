@@ -31,7 +31,7 @@ public class FollowerTest {
 			String secKey = new BigInteger(100, new SecureRandom()).toString(32).substring(0, 16);
 	        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
 	        String encSecKey = EncryptUtils.rsaEncrypt(secKey);
-		    Response execute = Jsoup.connect("http://music.163.com/weapi/user/getfollows/2768563")
+		    Response execute = Jsoup.connect("http://music.163.com/weapi/user/getfollows/2768541")
 					.data("params",encText)
 					.data("encSecKey",encSecKey)
 					.method(Method.POST).ignoreContentType(true).execute();

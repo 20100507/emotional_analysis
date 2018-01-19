@@ -8,6 +8,6 @@
 		<property name="minPoolSize">10</property>
 		<property name="maxStatements">4000</property>
 		<property name="driverClass">com.mysql.jdbc.Driver</property>
-		<property name="jdbcUrl">jdbc:mysql:///common_data</property>
+		<property name="jdbcUrl">jdbc:mysql:///music_data</property>
 	</default-config>
 </c3p0-config> 
