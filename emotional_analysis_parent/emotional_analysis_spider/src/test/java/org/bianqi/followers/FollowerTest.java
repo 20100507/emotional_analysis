@@ -20,8 +20,6 @@ import org.junit.Test;
 public class FollowerTest {
 	
 	/**
-	 * 粉丝 但是数据使用JS解析 是个问题
-	  //TODO
 	 * <p>Title: test3</p>
 	 * <p>Description: </p>
 	 * @throws Exception 
@@ -29,9 +27,9 @@ public class FollowerTest {
 	@Test
 	public void test3() throws Exception{
 			String secKey = new BigInteger(100, new SecureRandom()).toString(32).substring(0, 16);
-	        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
+	        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"offset\":0,\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
 	        String encSecKey = EncryptUtils.rsaEncrypt(secKey);
-		    Response execute = Jsoup.connect("http://music.163.com/weapi/user/getfollows/2768541")
+		    Response execute = Jsoup.connect("http://music.163.com/weapi/user/getfollows/380377129")
 					.data("params",encText)
 					.data("encSecKey",encSecKey)
 					.method(Method.POST).ignoreContentType(true).execute();

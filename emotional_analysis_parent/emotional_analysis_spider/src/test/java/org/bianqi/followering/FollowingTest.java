@@ -12,14 +12,13 @@ import org.junit.Test;
 /**
  * 关注者
  * @author dhc
- *
  */
 public class FollowingTest {
 	
 	@Test
 	public void test3() throws Exception{
 			String secKey = new BigInteger(100, new SecureRandom()).toString(32).substring(0, 16);
-	        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"uid\":2768563,\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
+	        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"userId\":2768563,\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
 	        String encSecKey = EncryptUtils.rsaEncrypt(secKey);
 		    Response execute = Jsoup.connect("http://music.163.com/weapi/user/getfolloweds")
 					.data("params",encText)
@@ -28,7 +27,5 @@ public class FollowingTest {
 			String string = execute.body().toString();
 			System.out.println(string);
 	}
-	
-	
 	
 }

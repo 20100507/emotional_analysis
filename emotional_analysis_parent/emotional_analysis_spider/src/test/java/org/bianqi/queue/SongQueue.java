@@ -1,9 +1,7 @@
 package org.bianqi.queue;
 
-import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicInteger;
-
-import org.bianqi.entity.SongEntity;
+import java.util.Queue;
+import java.util.concurrent.ConcurrentLinkedQueue;
 
 /**
  * 歌曲队列【推送到评论】
@@ -16,32 +14,32 @@ import org.bianqi.entity.SongEntity;
  */
 public class SongQueue {
 	
-	private static AtomicInteger atomicInteger = new AtomicInteger(0);
+private static Queue<String> uncrawledMusicList = new ConcurrentLinkedQueue<String>();
 	
-	private static LinkedBlockingQueue<SongEntity> ltq ;
-	
-	public static LinkedBlockingQueue<SongEntity> getInstance() {  
-        if (ltq == null) {    
-            synchronized (SongQueue.class) {    
-               if (ltq == null) {    
-            	   ltq = new LinkedBlockingQueue<>();   
-               }    
-            }    
-        }    
-        return ltq;   
-    }  
-	
-	public static void pushSong(SongEntity songEntity){
-		System.out.println("推送到队列"+atomicInteger.incrementAndGet()+"首歌曲");
-		try {
-			ltq.put(songEntity);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
+	public static Queue<String> getUncrawledMusicList() {
+		return uncrawledMusicList;
 	}
 	
-	public static SongEntity pollSong(){
-		System.out.println("拉取队列"+atomicInteger.decrementAndGet()+"首歌曲");
-		return ltq.poll();
+	public static void addMusicList(String e) {
+		System.out.println("=========================添加到队列中了===============================");
+		uncrawledMusicList.offer(e);
+	}
+	
+	public static String getTopMusicList() {
+		if (!uncrawledMusicList.isEmpty()) {
+			System.out.println("==================拉取队列中的数据====================");
+			return uncrawledMusicList.poll();
+		}
+		return null;
+	}
+	
+	public static boolean isUncrawledMusicListEmpty() {
+		return uncrawledMusicList.isEmpty();
+	}
+	
+	public static void printAll() {
+		while (!uncrawledMusicList.isEmpty()) {
+			System.out.println(uncrawledMusicList.poll());
+		}
 	}
 }

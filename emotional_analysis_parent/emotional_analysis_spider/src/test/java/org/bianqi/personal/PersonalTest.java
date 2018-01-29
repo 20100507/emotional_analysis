@@ -1,6 +1,5 @@
 package org.bianqi.personal;
 
-import java.io.IOException;
 import java.math.BigInteger;
 import java.security.SecureRandom;
 
@@ -30,7 +29,7 @@ public class PersonalTest {
 	@Test
 	public void test2() throws Exception{
 		String secKey = new BigInteger(100, new SecureRandom()).toString(32).substring(0, 16);
-        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"uid\":2768563,\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
+        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"uid\":2763211,\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
         String encSecKey = EncryptUtils.rsaEncrypt(secKey);
 	    Response execute = Jsoup.connect("http://music.163.com/weapi/user/playlist")
 				.data("params",encText)
@@ -39,21 +38,23 @@ public class PersonalTest {
 		String string = execute.body().toString();
 		System.out.println(string);
 	}
-
-	//非法访问
+	
+	/**
+	 * 个人动态
+	 * @throws Exception
+	 */
 	@Test
 	public void test3() throws Exception{
 		String secKey = new BigInteger(100, new SecureRandom()).toString(32).substring(0, 16);
-        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"type\":1000,\"uid\":2768563,\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
+        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"uid\":2763211,\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
         String encSecKey = EncryptUtils.rsaEncrypt(secKey);
-	    Response execute = Jsoup.connect("http://music.163.com/weapi/v1/play/record")
+	    Response execute = Jsoup.connect("http://music.163.com/weapi/event/get/2763211")
 				.data("params",encText)
 				.data("encSecKey",encSecKey)
 				.method(Method.POST).ignoreContentType(true).execute();
 		String string = execute.body().toString();
 		System.out.println(string);
 	}
-
 
 }
 

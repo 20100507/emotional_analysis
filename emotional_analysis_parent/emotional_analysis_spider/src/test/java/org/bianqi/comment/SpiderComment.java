@@ -71,10 +71,9 @@ public class SpiderComment implements Runnable {
 					pageSize = total / 10;
 					List<Comments> comments = readValue.getComments();
 					for (Comments comments2 : comments) {
-						Connection currentConnection = DataSourceUtils
-								.getCurrentConnection();
+						Connection currentConnection = DataSourceUtils.getCurrentConnection();
 						String sql = "insert into comments (userId,commentId,time,content,likedCount,songId,nickName,avatarUrl) values(?,?,?,?,?,?,?,?)";
-						CommentDataInsert.insert(currentConnection, sql,comments2, songId);
+						CommentDataInsert.insert(currentConnection, sql,comments2, songId,i);
 					}
 				} catch (Exception e) {
 					i = i - 1;
@@ -125,7 +124,7 @@ public class SpiderComment implements Runnable {
 						Connection currentConnection = DataSourceUtils
 								.getCurrentConnection();
 						String sql = "insert into comments (userId,commentId,time,content,likedCount,songId,nickName,avatarUrl) values(?,?,?,?,?,?,?,?)";
-						CommentDataInsert.insert(currentConnection, sql,comments2, songId);
+						CommentDataInsert.insert(currentConnection, sql,comments2, songId,i);
 					}
 				} catch (Exception e) {
 					i = i - 1;
