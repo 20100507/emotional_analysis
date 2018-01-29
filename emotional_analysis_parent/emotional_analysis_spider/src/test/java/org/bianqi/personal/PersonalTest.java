@@ -28,6 +28,11 @@ public class PersonalTest {
 	 */
 	@Test
 	public void test2() throws Exception{
+		System.setProperty("http.maxRedirects", "5000");
+		System.getProperties().setProperty("proxySet", "true");
+		// 如果不设置，只要代理IP和代理端口正确,此项不设置也可以
+		System.getProperties().setProperty("http.proxyHost", "139.224.80.139");
+		System.getProperties().setProperty("http.proxyPort", "3128");
 		String secKey = new BigInteger(100, new SecureRandom()).toString(32).substring(0, 16);
         String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"uid\":2763211,\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
         String encSecKey = EncryptUtils.rsaEncrypt(secKey);

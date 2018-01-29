@@ -116,7 +116,7 @@ public class SongTest {
 	//测试
 	public static void main(String[] args) throws Exception {
 		ExecutorService executorSong = Executors.newCachedThreadPool();
-		SpiderComment spiderComment = new SpiderComment(532364198L);
+		SpiderComment spiderComment = new SpiderComment(28815250L);
 		Thread t1 = new Thread(spiderComment);
 		executorSong.execute(t1);
 		executorSong.shutdown();

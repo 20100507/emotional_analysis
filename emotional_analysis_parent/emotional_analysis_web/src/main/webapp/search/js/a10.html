@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)http://www.jq22.com/js/a10.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>jq22-a10</title>
+<style>
+canvas { position: absolute; top: 0; left: 0; }
+</style>
+</head>
+
+<body>
+<canvas id="c" width="1600" height="718"></canvas>
+<script>	
+	var w = c.width = window.innerWidth
+	,h = c.height = window.innerHeight
+	,ctx = c.getContext( '2d' )
+	,opts = {
+		baseBaseSize: 15,
+		addedBaseSize: 5,
+		baseVel: 2,
+		addedVel: 1,
+		baseTime: 60,
+		addedTime: 20,
+		overTime: 5,
+		sliding: .99,
+		particleChance: .9,
+		particles: 100,
+		templateParticleColor: 'hsla(hue,80%,40%,alp)',
+		repaintAlpha: 'rgba(0,0,0,.1)',
+		startColor: .2,
+		fullColor: .5,
+		stopColor: .6,
+		timeToColorChange: 3
+	}
+	,	particles = []
+	,	tick = 0;
+
+function Particle(){
+	this.reset();
+}
+Particle.prototype.reset = function(){
+	this.x = Math.pow( Math.random(), 1/4 );
+	this.y = h / 2;	
+	var color = opts.templateParticleColor.replace( 'hue', this.x * 360 * 2 + tick * opts.timeToColorChange );
+	this.baseSize = ( Math.random() + this.x ) / 2 * ( opts.baseBaseSize + opts.addedBaseSize * Math.random() );
+	this.gradient = ctx.createRadialGradient( 0, 0, 0, 0, 0, this.baseSize / 2 );
+	this.gradient.addColorStop( opts.startColor, color.replace( 'alp', 0 ) );
+	this.gradient.addColorStop( opts.fullColor, color.replace( 'alp', 1 ) );
+	this.gradient.addColorStop( opts.stopColor, color.replace( 'alp', 1 ) );
+	this.gradient.addColorStop( 1, color.replace( 'alp', 0 ) );
+	
+	this.vx = -( 1 + Math.random() / 10 - this.x) * ( opts.baseVel + Math.random() * opts.addedVel );
+	this.vy = Math.pow( this.x, 4 ) * ( opts.baseVel + Math.random() * opts.addedVel ) * ( Math.random() < .5 ? -1 : 1 );
+	
+	this.x *= w / 2;
+	if( Math.random() < .5 ){
+		this.x = w - this.x;
+		this.vx *= -1;
+	}
+	
+	this.time = opts.baseTime + opts.addedTime * Math.random();
+	this.tick = this.time + opts.overTime;
+	
+}
+Particle.prototype.step = function(){
+	var size;
+	if( this.tick <= this.time ){
+		this.x += this.vx *= opts.sliding;
+		this.y += this.vy *= opts.sliding;
+		size = Math.pow( this.tick / this.time, 1/2 )
+	} else size = 1 - ( ( this.tick - this.time ) / opts.overTime ) + .000001; 
+	
+	--this.tick;
+	
+	ctx.translate( this.x, this.y );
+	ctx.scale( size, size );
+	ctx.fillStyle = this.gradient;
+	ctx.fillRect( -this.baseSize / 2, -this.baseSize / 2, this.baseSize, this.baseSize );
+	ctx.scale( 1/size, 1/size );
+	ctx.translate( -this.x, -this.y );
+	
+	if( this.tick <= 0 )
+		this.reset();
+}
+
+function anim(){
+	window.requestAnimationFrame( anim );
+	
+	ctx.globalCompositeOperation = 'source-over';
+	ctx.fillStyle = opts.repaintAlpha;
+	ctx.fillRect( 0, 0, w, h );
+	
+	ctx.globalCompositeOperation = 'lighter';
+	
+	++tick;
+	
+	if( particles.length < opts.particles && Math.random() < opts.particleChance )
+		particles.push( new Particle );
+	
+	particles.map( function( particle ){ particle.step(); } );
+}
+ctx.fillStyle = '#222';
+ctx.fillRect( 0, 0, w, h );
+anim();
+
+window.addEventListener( 'resize', function(){
+	
+	w = c.width = window.innerWidth;
+	h = c.height = window.innerHeight;
+	
+	ctx.fillStyle = '#222';
+	ctx.fillRect( 0, 0, w, h );
+})
+	</script>
+
+
+</body></html>

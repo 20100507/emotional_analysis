@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0" background="white">
+       <div id="container" style="height: 100%;width: 100%"></div>
+       </div>
+       <script type="text/javascript" src="https://img.hcharts.cn/jquery/jquery-1.8.3.min.js"></script>
+       <script type="text/javascript" src="https://img.hcharts.cn/highcharts/highcharts.js"></script>
+       <script type="text/javascript" src="https://img.hcharts.cn/highcharts/highcharts-more.js"></script>
+       <script type="text/javascript" src="https://img.hcharts.cn/highcharts/modules/exporting.js"></script>
+       <script type="text/javascript" src="https://img.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
+<script>
+
+$("#container").click(function(){ 
+	 $.get("http://localhost/person/usermap", 
+	    function(result){
+		 $('#container').highcharts({
+		        chart: {
+		            polar: true
+		        },
+		        title: {
+		            text: '网易云音乐用户星座'
+		        },
+		        pane: {
+		            size: '70%'
+		        },
+		        xAxis: {
+		            categories: ['水瓶座','金牛座', '双鱼座',
+		            	         '白羊座','金牛座','巨蟹座',
+		            	         '狮子座','处女座','天秤座',
+		                         '天蝎座','射手座','魔蝎座'],
+		            tickmarkPlacement: 'on'
+		        },
+		        yAxis: {
+		            min: 0
+		        },
+		        tooltip: {
+		            shared: true
+		        },
+		        legend: {
+		            align: 'right',
+		            verticalAlign: 'top',
+		            y: 70,
+		            layout: 'vertical'
+		        },
+		        series: [ {
+		            type: 'area',
+		            name: '人数',
+		            data: [50000, 39000, 42000, 
+		            	   31000, 26000, 14000,
+		            	   50000, 39000, 42000,
+		            	   31000, 26000, 14000],
+		            pointPlacement: 'on'
+		        }]
+		    });
+	　　});
+});
+$('#container').trigger("click");
+
+</script>
+   </body>
+</html>

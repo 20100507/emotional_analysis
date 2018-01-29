@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://www.jq22.com/js/a2.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>jq22-code2</title>
+<style>
+html{ background: black;}
+body { width: 100%; height: 100%; position: absolute; left: 0; top: 0; overflow: hidden; margin: 0; background: black; -webkit-filter: invert(0); filter: invert(0); }
+#canvas { position: absolute; z-index: -1; -webkit-filter: hue-rotate(100deg) brightness(1); filter: hue-rotate(100deg) brightness(1); mix-blend-mode: difference; }
+#canv { position: absolute; z-index: -2; mix-blend-mode: lighter; }
+canvas { position: absolute; top: 50%; left: 50%; z-index: -1; -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%); }
+</style>
+</head>
+
+<body>
+<canvas id="canvas" height="400" width="400"></canvas>
+<canvas id="canv" width="1600" height="718"></canvas>
+<script>
+var c = document.getElementById('canv'),
+ $ = c.getContext('2d'),
+ w = c.width = window.innerWidth,
+ h = c.height = window.innerHeight,
+ t = 0,
+ num = 950,
+ s, a, b, u = 0,
+ x, y, _x, _y,
+ _t = 1 / 16;
+
+function random(min, max) {
+ return Math.random() * (max - min) + min;
+}
+
+var anim = function() {
+ $.globalCompositeOperation = 'multiply';
+ $.fillStyle = 'hsla(258,20%,50%,1)';
+ $.fillRect(0, 0, w, h);
+ $.globalCompositeOperation = 'lighter';
+ for (var i = 0; i < .5; i++) {
+  x = 0;
+  _u = (u) + i * 2, col = u + (_u * 8);
+  $.beginPath();
+  for (var j = 0; j < num; j++) {
+   x -= .312 * Math.sin(15);
+   y = x * Math.sin(i + 3.05 * t + x / 7) / 12;
+   _x = x * Math.cos(b) + y * Math.sin(b);
+   _y = x * Math.sin(b) - y * Math.cos(b);
+   b = (j * 2.1102) * Math.PI / -.1008;
+   $.arc(w / 2 - _x, h / 2 - _y, random(.001, .6), 300, Math.PI * 2 + .1);
+   $.lineWidth = .2;
+  }
+  var g = $.createLinearGradient(w / 2 + _x, h / 2 + _y,
+   1, w / 2 + _x, h / 2 + _y);
+  g.addColorStop(0.2, 'hsla(' + col + ',90%,50%,.2)');
+  g.addColorStop(0.9, 'hsla(' + _u + ',95%,50%,.3)');
+  g.addColorStop(1, 'hsla(0,0%,100%,.4)');
+  $.strokeStyle = g;
+  $.stroke();
+ }
+ t += _t / 2;
+ u -= .2;
+ window.requestAnimationFrame(anim);
+};
+anim();
+
+window.addEventListener('resize', function() {
+ c.width = w = window.innerWidth;
+ c.height = h = window.innerHeight;
+}, false);
+
+var canvas, ctx, tim;
+canvas = document.getElementsByTagName('canvas')[0];
+ctx = canvas.getContext('2d');
+canvas.width = canvas.height = 400;
+baum();
+
+function baum() {
+ var a, b, c, d, e, x, y, r;
+ ctx.globalCompositeOperation = "source-over";
+ ctx.fillStyle = "hsla(26,100%,0%,1)";
+ ctx.fillRect(0, 0, canvas.width, canvas.height);
+ ctx.globalCompositeOperation = "color-burn";
+ tim = new Date().getTime() / Math.PI / 72;
+
+ c = [];
+ r = tim / 32;
+ for (a = 0; a < 18; a++) {
+  b = 160;
+  if (a % 2 == 1) b = 100;
+  x = Math.cos(r) * b;
+  y = Math.sin(r) * b;
+  c.push([200 + x, 200 + y]);
+  r += Math.PI * 2 / 14;
+ }
+
+ for (a = 0; a < 7; a++) {
+  b = c[a * 2];
+  d = c[a * 2 + 1];
+  e = c[(a * 2 + 13) % 14];
+  tri([
+   [200, 200], b, d
+  ], 0);
+  tri([
+   [200, 200], b, e
+  ], 0);
+ }
+ requestAnimationFrame(baum);
+}
+
+function tri(p, ban) {
+ var a, b, c, d, e, f, x, y, han, r1, r2;
+ x = y = 0;
+ for (a = 0; a < 3; a++) {
+  x += p[a][0];
+  y += p[a][1];
+ }
+ x = x / 3 - canvas.width / 2;
+ y = y / 3 - canvas.height / 2;
+ han = Math.pow(x * x + y * y, 0.5);
+ c = 0.2 + Math.sin(tim / 13) * 0.15;
+ r1 = 0.5 + Math.sin(han / 20 * (1 + Math.sin(tim / 19) * 0.7) + tim / 41) * c;
+ r2 = 1 - r1;
+ c = p[0][0] * (p[1][1] - p[2][1]);
+ c += p[1][0] * (p[2][1] - p[0][1]);
+ c += p[2][0] * (p[0][1] - p[1][1]);
+ c = Math.abs(c);
+
+ if (c < 100) {
+  if (ban % 17 == 1) {
+   a = ((han + tim * 3) % 360) | 0;
+   b = 0.4;
+   if (ban % 12 > 8) b = 1;
+
+   ctx.fillStyle = ctx.strokeStyle = "hsla(" + a * 2 + ",60%,40%,0.53)";
+   ctx.beginPath();
+   for (a = 0; a < p.length; a++) {
+    b = p[a];
+    ctx.globalCompositeOperation = "lighter";
+    ctx.lineTo(b[0], b[1]);
+   }
+   ctx.fill();
+   if (Math.random() < 0.2) return;
+  }
+  if (ban % 50 > 28) return;
+  if (c < 20) return;
+ }
+
+ d = 0;
+ for (a = 0; a < p.length; a++) {
+  b = p[a];
+  c = p[(a + 1) % p.length];
+  x = b[0] - c[0];
+  y = b[1] - c[1];
+  e = Math.pow(x * x + y * y, 0.5);
+  if (e > d) {
+   d = e;
+   f = a;
+  }
+ }
+
+ a = p[f];
+ b = p[(f + 1) % p.length];
+ c = p[(f + 2) % p.length];
+ x = a[0] * r1 + b[0] * r2;
+ y = a[1] * r1 + b[1] * r2;
+ tri([b, c, [x, y]], ban + 1);
+ tri([c, a, [x, y]], ban + 2);
+}
+</script>
+
+
+</body></html>

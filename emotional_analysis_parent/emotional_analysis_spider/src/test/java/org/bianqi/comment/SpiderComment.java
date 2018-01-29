@@ -82,7 +82,7 @@ public class SpiderComment implements Runnable {
 				try {
 					System.out.println(Thread.currentThread().getName());
 					String secKey = new BigInteger(100, new SecureRandom())
-							.toString(32).substring(0, 16);// limit
+							.toString(32).substring(0, 16);
 					String encText = EncryptUtils.aesEncrypt(EncryptUtils
 							.aesEncrypt("{\"offset\":" + i * 10 + ",\"limit\":"
 									+ 10 + "};", "0CoJUm6Qyw8W8jud"), secKey);

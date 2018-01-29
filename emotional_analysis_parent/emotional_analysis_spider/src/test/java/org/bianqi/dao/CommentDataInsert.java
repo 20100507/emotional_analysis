@@ -22,7 +22,7 @@ public class CommentDataInsert {
 				.replaceAll("[\ud800\udc00-\udbff\udfff\ud800-\udfff]", "");
 		pstmt.setString(7, nickname);
 		pstmt.setString(8, comments.getUser().getAvatarUrl());
-		pstmt.executeQuery(commentSql);
+		pstmt.executeUpdate();
 		System.out.println(" 昵称:" + comments.getUser().getNickname()
 				+ "\r评论内容为：" + comments.getContent() + "\r评论时间为:"
 				+ comments.getTime() + "\r头像地址"

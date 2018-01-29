@@ -20,7 +20,7 @@
 		<mybatis.paginator.version>1.2.15</mybatis.paginator.version>
 		<mysql.version>5.1.32</mysql.version>
 		<slf4j.version>1.6.4</slf4j.version>
-		<jackson.version>2.4.2</jackson.version>
+		<jackson.version>2.8.1</jackson.version>
 		<com.mchange.version>0.9.5.2</com.mchange.version>
 		<httpclient.version>4.3.5</httpclient.version>
 		<jstl.version>1.2</jstl.version>
@@ -34,11 +34,16 @@
 		<jsqlparser.version>0.9.1</jsqlparser.version>
 		<commons-fileupload.version>1.3.1</commons-fileupload.version>
 		<quartz.version>2.2.2</quartz.version>
-		<jsoup.version>1.7.2</jsoup.version>
+		<jsoup.version>1.10.2</jsoup.version>
+		<druid.version>1.0.9</druid.version>
 		<org.python.version>2.7.0</org.python.version>
 		<com.github.freeseawind.version>2.0.1</com.github.freeseawind.version>
 		<com.googlecode.soundlibs.version>1.0.1-1</com.googlecode.soundlibs.version>
 		<uk.co.caprica.version>3.10.1</uk.co.caprica.version>
+		<org.apache.hadoop.version>2.7.3</org.apache.hadoop.version>
+		<org.elasticsearch.version>2.4.0</org.elasticsearch.version>
+		<com.alibaba.version>1.2.7</com.alibaba.version>
+		<com.janeluo.version>2012_u6</com.janeluo.version>
 	</properties>
 	<dependencyManagement>
 		<dependencies>
@@ -70,6 +75,11 @@
 				<artifactId>jackson-databind</artifactId>
 				<version>${jackson.version}</version>
 			</dependency>
+			<dependency>
+			<groupId>com.fasterxml.jackson.core</groupId>
+			<artifactId>jackson-core</artifactId>
+			<version>${jackson.version}</version>
+		    </dependency> 
 			<!-- httpclient -->
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
@@ -127,6 +137,12 @@
 				<groupId>com.mchange</groupId>
 				<artifactId>c3p0</artifactId>
 				<version>${com.mchange.version}</version>
+			</dependency>
+			<!-- 连接池 -->
+			<dependency>
+				<groupId>com.alibaba</groupId>
+				<artifactId>druid</artifactId>
+				<version>${druid.version}</version>
 			</dependency>
 			<!-- Spring -->
 			<dependency>
@@ -218,13 +234,28 @@
 				<artifactId>jlayer</artifactId>
 				<version>${com.googlecode.soundlibs.version}</version>
 			</dependency>
-
 			<dependency>
 				<groupId>uk.co.caprica</groupId>
 				<artifactId>vlcj</artifactId>
 				<version>${uk.co.caprica.version}</version>
 			</dependency>
-
+		    <!-- hdfs上傳文件 -->
+			<dependency>
+				<groupId>org.apache.hadoop</groupId>
+				<artifactId>hadoop-client</artifactId>
+				<version>${org.apache.hadoop.version}</version>
+			</dependency>
+			<!-- ES客户端 -->
+			<dependency>
+				<groupId>org.elasticsearch</groupId>
+				<artifactId>elasticsearch</artifactId>
+				<version>${org.elasticsearch.version}</version>
+			</dependency>   
+			<dependency>
+			    <groupId>com.janeluo</groupId>
+			    <artifactId>ikanalyzer</artifactId>
+			    <version>${com.janeluo.version}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 	<build>
@@ -245,8 +276,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 					<encoding>UTF-8</encoding>
 				</configuration>
 			</plugin>
