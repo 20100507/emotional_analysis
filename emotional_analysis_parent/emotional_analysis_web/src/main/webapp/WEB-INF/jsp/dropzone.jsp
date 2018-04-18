@@ -10,10 +10,10 @@
 <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
 <!-- //bootstrap-css -->
 <!-- Custom CSS -->
-<link href="css/style.css" rel='stylesheet' type='text/css' />
-<link href="css/style-responsive.css" rel="stylesheet"/>
+<link href="${pageContext.request.contextPath }/css/style.css" rel='stylesheet' type='text/css' />
+<link href="${pageContext.request.contextPath }/css/style-responsive.css" rel="stylesheet"/>
 <!-- font-awesome icons -->
-<link rel="stylesheet" href="css/font.css" type="text/css"/>
+<link rel="stylesheet" href="${pageContext.request.contextPath }/css/font.css" type="text/css"/>
 <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/font-awesome.4.6.0.css">
 <!-- //font-awesome icons -->
 <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8"/>
+    <link rel="stylesheet" type="text/css" href="http://www.jq22.com/jquery/bootstrap-3.3.4.css">
+    <link href="portrait/css/reset.css" rel="stylesheet" type="text/css">
+   <link rel="stylesheet" type="text/css" href="portrait/miaov_style.css" />
+ <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+ <script src="${pageContext.request.contextPath }/js/bootstrap.js"></script>
+    <script type="text/javascript" src="portrait/miaov.js"></script>
+    <style type="text/css">
+
+        body
+        {
+            font-size: 14px;
+            font-family: Microsoft YaHei, Tahoma, Geneva, sans-serif;
+        }
+
+        #content ul
+        {
+            width: 960px;
+            margin: 46px auto;
+            padding: 60px 0;
+        }
+
+        #content ul li
+        {
+            margin-right: 20px;
+            width: 225px;
+            height: 180px;
+            float: left;
+        }
+
+        #content ul li:last-child
+        {
+            margin-right: 0;
+        }
+
+        #content ul li a
+        {
+            position: relative;
+            display: block;
+            width: 100%;
+            height: 100%;
+            /*舞台（动画元素的父容器）perspective*/
+            -webkit-perspective: 800px;
+            -moz-perspective: 800px;
+
+        }
+
+        #content ul li a > div
+        {
+            position: absolute;
+            left: 0;
+            height: 0;
+            width: 100%;
+            height: 100%;
+            color: #fff;
+            /*动画元素transform-style*/
+            -webkit-transform-style: preserve-3d;
+            -moz-transform-style: preserve-3d;
+            -webkit-transition: .8s ease-in-out ;
+            -moz-transition:  .8s ease-in-out ;
+            /*动画元素背后设置为hidden*/
+            -webkit-backface-visibility: hidden;
+            -moz-backface-visibility: hidden;
+        }
+
+        #content ul li a div:first-child
+        {
+            /*
+            绕y轴旋转
+            */
+            -webkit-transform: rotateY(0);
+            -moz-transform: rotateY(0);
+            z-index: 2;
+        }
+
+        #content ul li a div:last-child
+        {
+            background: url("portrait/images/bg.jpg") no-repeat 0 0;
+            -webkit-transform: rotateY(180deg);
+            -moz-transform: rotateY(180deg);
+            z-index: 1;
+        }
+
+        #content ul li a:hover div:first-child
+        {
+            -webkit-transform: rotateY(-180deg);
+            -moz-transform: rotateY(-180deg);
+        }
+
+        #content ul li a:hover div:last-child
+        {
+            -webkit-transform: rotateY(0);
+            -moz-transform: rotateY(0);
+        }
+
+        #content ul li a div h3
+        {
+            margin: 0 auto 15px;
+            padding: 15px 0;
+            width: 200px;
+            height: 16px;
+            line-height: 16px;
+            font-size: 14px;
+            text-align: center;
+            border-bottom: 1px #fff dashed;
+        }
+
+        #content ul li a div p
+        {
+            padding: 0 10px;
+            font-size: 12px;
+            text-indent: 2em;
+            line-height: 18px;
+        }
+
+
+    </style>
+	
+		<style>
+	h3{
+	text-align: center;
+	color: #5A5A5A;
+}
+		body{
+			background: #707575;
+		}
+		#box{
+			width: 200px;
+			height: 200px;
+			margin:60px auto;
+			background: #ccc;
+			position: relative;
+			transform:perspective(800px) rotateY(-60deg) rotateX(45deg);
+			transform-style:preserve-3d;
+		}
+		#box div{
+			width:100%;
+			height:100%;
+			position: absolute;
+			top:0;
+			left: 0;
+			background-size:cover; 
+			-webkit-box-shadow:0 0 100px #5fbcff;
+			opacity: .8;
+		}
+		.front{
+			transform:translateZ(100px);
+			background: url(portrait/images/a5.png);
+		}
+		.back{
+			transform:translateZ(-100px);
+			background: url(portrait/images/a1.png);
+		}
+		.left{
+			transform:translateX(-100px) rotateY(90deg);
+			background: url(portrait/images/a2.png);
+		}
+		.right{
+			transform:translateX(100px) rotateY(90deg);
+			background: url(portrait/images/a3.png);
+		}
+		.top{
+			transform:translateY(-100px) rotateX(90deg);
+			background: url(portrait/images/a4.png);
+		}
+		.bottom{
+			transform:translateY(100px) rotateX(90deg);
+			background: url(portrait/images/a8.png);
+		}
+	</style>
+	<script>
+		window.onload=function()
+		{
+			var oBox=document.querySelector('#box');
+
+			var y=-60;
+			var x=45;
+			oBox.onmousedown=function(ev)
+			{
+				var oEvent=ev||event;
+				var disX=oEvent.clientX-y;
+				var disY=oEvent.clientY-x;
+				document.onmousemove=function(ev)
+				{
+					var oEvent=ev||event;
+					x=oEvent.clientY-disY;
+					y=oEvent.clientX-disX;
+					oBox.style.transform='perspective(800px) rotateX('+x+'deg) rotateY('+y+'deg)';
+				};
+				document.onmouseup=function()
+				{
+					document.onmousemove=null;
+					document.onmouseup=null;
+				};
+				return false;
+			};
+		};
+	</script>
+</head>
+<body>
+
+
+<div id="content">
+  	<div id="box">
+		<div class="front"></div>
+		<div class="back"></div>
+		<div class="top"></div>
+		<div class="bottom"></div>
+		<div class="left"></div>
+		<div class="right"></div>
+	</div>
+    <ul>
+        <li>
+            <a href="#" >
+                <div><img alt="" src="portrait/images/1.jpg"/></div>
+                <div>
+                    <h3>漩涡鸣人</h3>
+
+                    <p>日本漫画家岸本齐史作品《火影忍者》中男主角。因为身上封印着邪恶的九尾妖狐，无父无母的他受尽了村人的冷眼与歧视，他下定决心要成为第六代火影，让所有人都认同他的存在。</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#" >
+                <div>
+                    <img alt="" src="portrait/images/2.jpg"/>
+                </div>
+                <div>
+                    <h3>日向雏田</h3>
+
+                    <p>
+                        日本漫画家岸本齐史作品《火影忍者》中的3号女主角。木叶忍者村的女忍者，木叶名门日向一族宗家族长的长女。喜欢漩涡鸣人，原本是个性格柔弱的女孩，但是在鸣人的影响下逐渐变得坚强，并逐渐成长为一名优秀的忍者。</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#" >
+                <div><img alt="" src="portrait/images/3.jpg"/></div>
+                <div>
+                    <h3>蒙奇·D·路飞</h3>
+
+                    <p>蒙奇·D·路飞 是日本人气动漫 《海贼王》中的主人公。是日本人气动漫 《海贼王》中的主人公。草帽海贼团船长，梦想是找到传说中的宝藏 —— ONE PIECE，成为海贼王。</p>
+                </div>
+            </a>
+        </li>
+        <li>
+            <a href="#" >
+                <div>
+                    <img alt="" src="portrait/images/4.jpg"/>
+                </div>
+                <div>
+                    <h3>盒子先生</h3>
+
+                    <p>
+                        Danbo是一只用废纸盒DIY出来的可爱玩偶，圆圆的眼睛和三角形的嘴巴，时刻露出无辜的表情，让人看到就心软，Danbo是个纯真善良的小家伙，在它单纯的幻想世界里，总是透露出最纯真可爱的动人气息。</p>
+                </div>
+            </a>
+        </li>
+    </ul>
+</div>
+</body>
+</html>

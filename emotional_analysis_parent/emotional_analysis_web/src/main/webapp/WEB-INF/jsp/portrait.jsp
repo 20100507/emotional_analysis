@@ -23,6 +23,24 @@
 <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
 <script src="${pageContext.request.contextPath }/js/raphael-min.js"></script>
 <script src="${pageContext.request.contextPath }/js/morris.js"></script>
+<script src='https://cdn.bootcss.com/echarts/3.2.2/echarts.simple.js'></script>
+<script src='${pageContext.request.contextPath }/js/echarts-wordcloud.js'></script>
+<script src="${pageContext.request.contextPath }/js/bootstrap.js"></script>
+<script src="${pageContext.request.contextPath }/js/jquery.dcjqaccordion.2.7.js"></script>
+<script src="${pageContext.request.contextPath }/js/scripts.js"></script>
+<script src="${pageContext.request.contextPath }/js/jquery.slimscroll.js"></script>
+<script src="${pageContext.request.contextPath }/js/jquery.nicescroll.js"></script>
+<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
+<script src="${pageContext.request.contextPath }/js/jquery.scrollTo.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+<script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
 </head>
 <body>
 <section id="container">
@@ -31,7 +49,7 @@
 <!--logo start-->
 <div class="brand">
     <a href="${pageContext.request.contextPath }/index.html" class="logo">
-         网易云音乐
+       网易云音乐
     </a>
     <div class="sidebar-toggle-box">
         <div class="fa fa-bars"></div>
@@ -122,7 +140,7 @@
                 </li>
                 <li>
                     <a href="#">
-                        <span class="photo"><img alt="avatar" src="images/3.png"></span>
+                        <span class="photo"><img alt="avatar" src="${pageContext.request.contextPath }/images/3.png"></span>
                                 <span class="subject">
                                 <span class="from">Jonathan Smith</span>
                                 <span class="time">Just now</span>
@@ -134,7 +152,7 @@
                 </li>
                 <li>
                     <a href="#">
-                        <span class="photo"><img alt="avatar" src="images/1.png"></span>
+                        <span class="photo"><img alt="avatar" src="${pageContext.request.contextPath }/images/1.png"></span>
                                 <span class="subject">
                                 <span class="from">Jane Doe</span>
                                 <span class="time">2 min ago</span>
@@ -146,7 +164,7 @@
                 </li>
                 <li>
                     <a href="#">
-                        <span class="photo"><img alt="avatar" src="images/3.png"></span>
+                        <span class="photo"><img alt="avatar" src="${pageContext.request.contextPath }/images/3.png"></span>
                                 <span class="subject">
                                 <span class="from">Tasi sam</span>
                                 <span class="time">2 days ago</span>
@@ -158,7 +176,7 @@
                 </li>
                 <li>
                     <a href="#">
-                        <span class="photo"><img alt="avatar" src="images/2.png"></span>
+                        <span class="photo"><img alt="avatar" src="${pageContext.request.contextPath }/images/2.png"></span>
                                 <span class="subject">
                                 <span class="from">Mr. Perfect</span>
                                 <span class="time">2 hour ago</span>
@@ -220,7 +238,7 @@
     <!--search & user info start-->
     <ul class="nav pull-right top-menu">
         <li>
-            <input type="text" class="form-control search" placeholder=" Search">
+            <input type="text" class="form-control search" placeholder="输入人物ID">
         </li>
         <!-- user login dropdown start-->
         <li class="dropdown">
@@ -249,35 +267,35 @@
         <div class="leftside-navigation">
             <ul class="sidebar-menu" id="nav-accordion">
                 <li>
-                    <a class="active" href="index.html">
+                    <a class="active" href="${pageContext.request.contextPath }/index.html">
                         <i class="fa fa-dashboard"></i>
                         <span>音乐数据分析平台</span>
                     </a>
                 </li>
                 
                 <li class="sub-menu">
-                    <a href="javascript:;">
+                    <a href="javascript:;"  class="active">
                         <i class="fa fa-book"></i>
                         <span>人物画像</span>
                     </a>
                     <ul class="sub">
-						<li><a href="${pageContext.request.contextPath }/portrait/person">人物画像</a></li>
+						<li><a href="${pageContext.request.contextPath }/portrait/person" class="active">人物画像</a></li>
                     </ul>
                 </li>
-                 <li class="sub-menu">
-                    <a href="javascript:;">
+                 <li class="sub-menu" >
+                    <a href="javascript:;" >
                         <i class="fa fa-tasks"></i>
                         <span>图计算</span>
                     </a>
                     <ul class="sub">
-                         <li><a href="${pageContext.request.contextPath }/graph/graphTop">用户PageRankTop榜</a></li>
+                        <li><a href="${pageContext.request.contextPath }/graph/graphTop">用户PageRankTop榜</a></li>
                         <li><a href="${pageContext.request.contextPath }/graph/graphTriangle">用户Triangle榜</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-tasks"></i>
-                        <span>音乐热听榜</span>
+                        <span>音乐</span>
                     </a>
                     <ul class="sub">
                         <li><a href="${pageContext.request.contextPath }/song/songtop">热歌排行榜</a></li>
@@ -285,21 +303,20 @@
                     </ul>
                 </li>
                 <li class="sub-menu">
-                    <a href="javascript:;">
+                    <a href="javascript:;" >
                         <i class="fa fa-envelope"></i>
                         <span>评论</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="mail.html">热歌评论</a></li>
-                        <li><a href="mail.html">评论表情</a></li>
-                        <li><a href="${pageContext.request.contextPath }/comment/wordcloud">评论词云</a></li>
-                         <li><a href="mail_compose.html">评论榜</a></li>
+                        <li><a href="mail_compose.html">评论分类</a></li>
+                        <li><a href="${pageContext.request.contextPath }/comment/wordcloud" >评论词云</a></li>
+                         <li><a href="mail_compose.html">评论榜Top</a></li>
                           <li><a href="${pageContext.request.contextPath }/comment/search">热评搜索</a></li>
                     </ul>
                 </li>
                 <li class="sub-menu">
                     <a href="javascript:;">
-                        <i class=" fa fa-bar-chart-o"></i>
+                        <i class="fa fa-bar-chart-o"></i>
                         <span>用户分布</span>
                     </a>
                     <ul class="sub">
@@ -309,16 +326,18 @@
                         <li><a href="${pageContext.request.contextPath }/person/age">年龄分布</a></li>
                     </ul>
                 </li>
-                 <li class="sub-menu">
+				 <li class="sub-menu">
                     <a href="javascript:;">
                         <i class="fa fa-tasks"></i>
-                        <span>机器学习[多层感知器]</span>
+                        <span>机器学习[分类/聚类]</span>
                     </a>
                     <ul class="sub">
-                        <li><a href="form_component.html">歌曲文本分类</a></li>
+                        <li><a href="form_component.html">训练情感模型</a></li>
+                        <li><a href="form_validation.html">分类歌曲</a></li>
                     </ul>
                 </li>
-            </ul>            </div>
+            </ul>
+            </div>
         <!-- sidebar menu end-->
     </div>
 </aside>
@@ -326,88 +345,8 @@
 <!--main content start-->
 <section id="main-content">
 	<section class="wrapper">
-		<!-- //market-->
-		<div class="market-updates">
-			<div class="col-md-3 market-update-gd">
-				<div class="market-update-block clr-block-2">
-					<div class="col-md-4 market-update-right">
-						<i class="fa fa-eye"> </i>
-					</div>
-					 <div class="col-md-8 market-update-left">
-					 <h4>用户</h4>
-					<h3>13,500</h3>
-					<p>Other hand, we denounce</p>
-				  </div>
-				  <div class="clearfix"> </div>
-				</div>
-			</div>
-			<div class="col-md-3 market-update-gd">
-				<div class="market-update-block clr-block-1">
-					<div class="col-md-4 market-update-right">
-						<i class="fa fa-users" ></i>
-					</div>
-					<div class="col-md-8 market-update-left">
-					<h4>评论</h4>
-						<h3>1,250</h3>
-						<p>Other hand, we denounce</p>
-					</div>
-				  <div class="clearfix"> </div>
-				</div>
-			</div>
-			<div class="col-md-3 market-update-gd">
-				<div class="market-update-block clr-block-3">
-					<div class="col-md-4 market-update-right">
-						<i class="fa fa-usd"></i>
-					</div>
-					<div class="col-md-8 market-update-left">
-						<h4>歌曲</h4>
-						<h3>1,500</h3>
-						<p>Other hand, we denounce</p>
-					</div>
-				  <div class="clearfix"> </div>
-				</div>
-			</div>
-			<div class="col-md-3 market-update-gd">
-				<div class="market-update-block clr-block-4">
-					<div class="col-md-4 market-update-right">
-						<i class="fa fa-shopping-cart" aria-hidden="true"></i>
-					</div>
-					<div class="col-md-8 market-update-left">
-						<h4>歌手</h4>
-						<h3>1,500</h3>
-						<p>Other hand, we denounce</p>
-					</div>
-				  <div class="clearfix"> </div>
-				</div>
-			</div>
-		   <div class="clearfix"> </div>
-		</div>	
-		<!-- //market-->
-		<div class="row">
-			<div class="panel-body">
-				<div class="col-md-12 w3ls-graph">
-					<!--agileinfo-grap-->
-						<div class="agileinfo-grap">
-							<div class="agileits-box">
-								<header class="agileits-box-header clearfix">
-									<h3>网易云音乐评论时间段</h3>
-										<div class="toolbar">
-										</div>
-								</header>
-								<div class="agileits-box-body clearfix">
-									<iframe name="content_frame" marginwidth=0 marginheight=0 width=100% height=450px src="${pageContext.request.contextPath }/comment-time.html" frameborder=0></iframe>        
-								</div>
-							</div>
-						</div>
-	<!--//agileinfo-grap-->
-
-				</div>
-			</div>
-		</div>
-			</div>
-			<div class="clearfix"> </div>
-		</div>
-			</div>
+		<iframe name="content_frame" marginwidth=0 marginheight=0 width=100% height=650px src="${pageContext.request.contextPath }/portrait.html" frameborder=0></iframe>        
+		<div class="clearfix"> </div>
 </section>
  <!-- footer -->
 		  <div class="footer">
@@ -417,14 +356,6 @@
 		  </div>
   <!-- / footer -->
 </section>
-<!--main content end-->
 </section>
-<script src="${pageContext.request.contextPath }/js/bootstrap.js"></script>
-<script src="${pageContext.request.contextPath }/js/jquery.dcjqaccordion.2.7.js"></script>
-<script src="${pageContext.request.contextPath }/js/scripts.js"></script>
-<script src="${pageContext.request.contextPath }/js/jquery.slimscroll.js"></script>
-<script src="${pageContext.request.contextPath }/js/jquery.nicescroll.js"></script>
-<!--[if lte IE 8]><script language="javascript" type="text/javascript" src="js/flot-chart/excanvas.min.js"></script><![endif]-->
-<script src="${pageContext.request.contextPath }/js/jquery.scrollTo.js"></script>
 </body>
 </html>

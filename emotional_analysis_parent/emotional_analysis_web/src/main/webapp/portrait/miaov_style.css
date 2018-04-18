@@ -1,0 +1,7 @@
+body {background: #000 url(index.png) no-repeat center 230px;}
+#div1 {position:relative; width:450px; height:450px; margin: 20px auto 0; }
+#div1 a {position:absolute; top:0px; left:0px; font-family: Microsoft YaHei; color:#fff; font-weight:bold; text-decoration:none; padding: 3px 6px; }
+#div1 a:hover {border: 1px solid #eee; background: #000; }
+#div1 .blue {color:blue;}
+#div1 .red {color:red;}
+#div1 .yellow {color:yellow;}
