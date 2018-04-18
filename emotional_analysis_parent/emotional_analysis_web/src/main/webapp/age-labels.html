@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 90%; margin: 0" background="white">
+       <div id="Map" style="height: 90%">
+       </div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+       <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script>
+
+
+$("#Map").click(function(){ 
+	 $.get("http://localhost/person/userage", 
+	    function(result){
+		 var chart=echarts.init(document.getElementById("Map"))
+				option = {
+			   title : {
+			        text: '网易云音乐用户年龄分布',
+			        subtext: '数据来源于2018【约1000W数据】',
+			        x:'center'
+			    },
+    color: ['#f34b4b'],
+    tooltip : {
+        trigger: 'axis',
+        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+            type : 'shadow'        // 默认为直线，可选为：'line' | 'shadow'
+        }
+    },
+    grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+    },
+    xAxis : [
+        {
+            type : 'category',
+            data : ['80后', '85后', '90后', '95后', '00后', '05后', '10后','15后'],
+            axisTick: {
+                alignWithLabel: true
+            }
+        }
+    ],
+    yAxis : [
+        {
+            type : 'value'
+        }
+    ],
+    series : [
+        {
+            name:'人数',
+            type:'bar',
+            barWidth: '60%',
+            data:result
+        }
+    ]
+};
+	chart.setOption(option)
+	　　});
+});
+$('#Map').trigger("click");
+</script>
+   </body>
+</html>

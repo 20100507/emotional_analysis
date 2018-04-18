@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="org.bianqi.web.wangyi.mapper.GraphTriangleMapper" >
+  <resultMap id="BaseResultMap" type="org.bianqi.web.wangyi.pojo.GraphTriangle" >
+    <id column="triangle_id" property="triangleId" jdbcType="INTEGER" />
+    <result column="user_id" property="userId" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="triangle_top" property="triangleTop" jdbcType="REAL" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    triangle_id, user_id, name, triangle_top
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="org.bianqi.web.wangyi.pojo.GraphTriangleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from graph_triangle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from graph_triangle
+    where triangle_id = #{triangleId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from graph_triangle
+    where triangle_id = #{triangleId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.bianqi.web.wangyi.pojo.GraphTriangleExample" >
+    delete from graph_triangle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.bianqi.web.wangyi.pojo.GraphTriangle" >
+    insert into graph_triangle (triangle_id, user_id, name, 
+      triangle_top)
+    values (#{triangleId,jdbcType=INTEGER}, #{userId,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, 
+      #{triangleTop,jdbcType=REAL})
+  </insert>
+  <insert id="insertSelective" parameterType="org.bianqi.web.wangyi.pojo.GraphTriangle" >
+    insert into graph_triangle
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="triangleId != null" >
+        triangle_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="triangleTop != null" >
+        triangle_top,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="triangleId != null" >
+        #{triangleId,jdbcType=INTEGER},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="triangleTop != null" >
+        #{triangleTop,jdbcType=REAL},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.bianqi.web.wangyi.pojo.GraphTriangleExample" resultType="java.lang.Integer" >
+    select count(*) from graph_triangle
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update graph_triangle
+    <set >
+      <if test="record.triangleId != null" >
+        triangle_id = #{record.triangleId,jdbcType=INTEGER},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.triangleTop != null" >
+        triangle_top = #{record.triangleTop,jdbcType=REAL},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update graph_triangle
+    set triangle_id = #{record.triangleId,jdbcType=INTEGER},
+      user_id = #{record.userId,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      triangle_top = #{record.triangleTop,jdbcType=REAL}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.bianqi.web.wangyi.pojo.GraphTriangle" >
+    update graph_triangle
+    <set >
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="triangleTop != null" >
+        triangle_top = #{triangleTop,jdbcType=REAL},
+      </if>
+    </set>
+    where triangle_id = #{triangleId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.bianqi.web.wangyi.pojo.GraphTriangle" >
+    update graph_triangle
+    set user_id = #{userId,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR},
+      triangle_top = #{triangleTop,jdbcType=REAL}
+    where triangle_id = #{triangleId,jdbcType=INTEGER}
+  </update>
+</mapper>

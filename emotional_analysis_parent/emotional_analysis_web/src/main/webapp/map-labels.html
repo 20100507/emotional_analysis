@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 100%; margin: 0">
+       <div id="Map" style="height: 100%">
+       </div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+       <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script>
+
+
+$("#Map").click(function(){ 
+	 $.get("http://localhost/person/usermap", 
+	    function(result){
+		 var chart=echarts.init(document.getElementById("Map"))
+		 option = {
+				    tooltip: {},
+				    visualMap: {
+				        min: 0,
+				        max: 50000,
+				        text:['High','Low'],
+				        realtime: false,
+				        calculable: true,
+				        inRange: {
+				            color: ['#e0ffff', '#006edd']
+				        }
+				    },
+				    geo: {
+				        map: 'china',
+				        roam: true,
+				        label: {
+				            normal: {
+				                show: true,
+				                textStyle: {
+				                    color: 'rgba(0,0,0,0.4)'
+				                }
+				            }
+				        },
+				        itemStyle: {
+				            normal:{
+				                borderColor: 'rgba(0, 0, 0, 0.2)'
+				            },
+				            emphasis:{
+				                areaColor: null,
+				                shadowOffsetX: 0,
+				                shadowOffsetY: 0,
+				                shadowBlur: 20,
+				                borderWidth: 0,
+				                shadowColor: 'rgba(0, 0, 0, 0.5)'
+				            }
+				        }
+				    },
+				    series : [
+				        {
+				            name: '人数',
+				            type: 'map',
+				            roam: true,
+				            coordinateSystem: 'geo',
+				            geoIndex: 0,
+				            // tooltip: {show: false},
+				            label: {
+				                normal: {
+				                    formatter: '{b}',
+				                    position: 'right',
+				                    show: false
+				                },
+				                emphasis: {
+				                    show: true
+				                }
+				            },
+				            itemStyle: {
+				                normal: {
+				                    color: '#006C00'
+				                }
+				            },
+				            data:result
+				        }
+				    ]
+				};
+		 chart.setOption(option)
+	　　});
+});
+$('#Map').trigger("click");
+
+</script>
+   </body>
+</html>

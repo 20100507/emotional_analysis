@@ -18,7 +18,7 @@ public class CommonThread implements Runnable{
 	
 	private long pageSize = 0;
 	
-	private long songId = 0;
+	private long songId = 483671599;
 	
 	@Override
 	public void run() {
@@ -33,6 +33,7 @@ public class CommonThread implements Runnable{
 						.data("encSecKey",encSecKey)
 						.method(Method.POST).ignoreContentType(true).timeout(2000000000).execute();
 				String string = execute.body().toString();
+				System.out.println(string);
 				ObjectMapper objectMapper = new ObjectMapper();
 				CommentBean readValue = objectMapper.readValue(string.getBytes(), CommentBean.class);
 				long total = readValue.getTotal();
@@ -44,11 +45,11 @@ public class CommonThread implements Runnable{
 					User user = comments2.getUser();
 					String avatarUrl = user.getAvatarUrl();
 					String nickname = user.getNickname();
+					long userId = user.getUserId();
 					//=========================================数据持久化==========================
-					System.out.println("昵称:"+nickname+"评论内容为："+content+"评论时间为:"+time+"头像地址"+avatarUrl);
+					System.out.println("昵称:"+nickname+"评论内容为："+content+"评论时间为:"+time+"头像地址"+avatarUrl+"用户的ID"+userId);
 				}
 			}catch(Exception e){
-				this.run();
 			}
 		  }
 		}

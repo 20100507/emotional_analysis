@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<!-- saved from url=(0031)http://www.jq22.com/js/a14.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>jq22.com</title>
+<script src="./a5/three.min.js"></script>
+<style>
+html, body {
+	width: 100%;
+	height: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+</style>
+</head>
+
+<body>
+<script>
+'use strict';
+
+var _class, _temp, _class2, _temp2, _class3, _temp3;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var BackgroundMaterial = (_temp = _class = function (_THREE$RawShaderMater) {
+  _inherits(BackgroundMaterial, _THREE$RawShaderMater);
+
+  function BackgroundMaterial() {
+    _classCallCheck(this, BackgroundMaterial);
+
+    var _this = _possibleConstructorReturn(this, _THREE$RawShaderMater.call(this, BackgroundMaterial.shader));
+
+    _this.resize = function () {
+      _this.uniforms.resolution.value.set(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio);
+    };
+
+    _this.loop = function (timestamp) {
+      requestAnimationFrame(_this.loop);
+      _this.uniforms.globalTime.value = timestamp / 1000;
+    };
+
+    addEventListener('resize', _this.resize);
+    requestAnimationFrame(_this.loop);
+    return _this;
+  }
+
+  return BackgroundMaterial;
+}(THREE.RawShaderMaterial), _class.shader = {
+  vertexShader: '\n      attribute vec3 position;\n\n      uniform mat4 projectionMatrix;\n      uniform mat4 modelViewMatrix;\n\n      void main() {\n        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);\n      }\n    ',
+  fragmentShader: '\n      #ifdef GL_ES\n      precision mediump float;\n      #endif\n\n      #define OCTAVES 2\n      #define RGB(r, g, b) vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0)\n\n      uniform vec2 resolution;\n      uniform float globalTime;\n\n      float random(vec2 co) {\n          return fract(sin(dot(co.xy, vec2(12.9898,78.233))) * 43758.5453);\n      }\n\n      vec2 rand2(vec2 p) {\n          p = vec2(dot(p, vec2(12.9898,78.233)), dot(p, vec2(26.65125, 83.054543))); \n          return fract(sin(p) * 43758.5453);\n      }\n\n      float rand(vec2 p) {\n          return fract(sin(dot(p.xy ,vec2(54.90898,18.233))) * 4337.5453);\n      }\n\n\n\n      //\n      // Description : Array and textureless GLSL 2D simplex noise function.\n      //      Author : Ian McEwan, Ashima Arts.\n      //  Maintainer : ijm\n      //     Lastmod : 20110822 (ijm)\n      //     License : Copyright (C) 2011 Ashima Arts. All rights reserved.\n      //               Distributed under the MIT License. See LICENSE file.\n      //               https://github.com/ashima/webgl-noise\n      //\n\n      vec3 mod289(vec3 x) {\n        return x - floor(x * (1.0 / 289.0)) * 289.0;\n      }\n\n      vec2 mod289(vec2 x) {\n        return x - floor(x * (1.0 / 289.0)) * 289.0;\n      }\n\n      vec3 permute(vec3 x) {\n        return mod289(((x*34.0)+1.0)*x);\n      }\n\n      float snoise(vec2 v) {\n        const vec4 C = vec4(0.211324865405187,  // (3.0-sqrt(3.0))/6.0\n                            0.366025403784439,  // 0.5*(sqrt(3.0)-1.0)\n                           -0.577350269189626,  // -1.0 + 2.0 * C.x\n                            0.024390243902439); // 1.0 / 41.0\n        vec2 i  = floor(v + dot(v, C.yy) );\n        vec2 x0 = v -   i + dot(i, C.xx);\n\n        vec2 i1;\n        i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);\n        vec4 x12 = x0.xyxy + C.xxzz;\n        x12.xy -= i1;\n\n        i = mod289(i); // Avoid truncation effects in permutation\n        vec3 p = permute( permute( i.y + vec3(0.0, i1.y, 1.0 ))\n          + i.x + vec3(0.0, i1.x, 1.0 ));\n\n        vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);\n        m = m*m ;\n        m = m*m ;\n\n        vec3 x = 2.0 * fract(p * C.www) - 1.0;\n        vec3 h = abs(x) - 0.5;\n        vec3 ox = floor(x + 0.5);\n        vec3 a0 = x - ox;\n\n        m *= 1.79284291400159 - 0.85373472095314 * ( a0*a0 + h*h );\n\n        vec3 g;\n        g.x  = a0.x  * x0.x  + h.x  * x0.y;\n        g.yz = a0.yz * x12.xz + h.yz * x12.yw;\n        return 130.0 * dot(m, g);\n      }\n\n      // Thanks to andmar1x https://www.shadertoy.com/view/MtB3zW\n      float stars(in vec2 x, float numCells, float size, float br) {\n        vec2 n = x * numCells;\n        vec2 f = floor(n);\n\n        float d = 1.0e10;\n        for (int i = -1; i <= 1; ++i)\n        {\n          for (int j = -1; j <= 1; ++j)\n          {\n            vec2 g = f + vec2(float(i), float(j));\n            g = n - g - rand2(mod(g, numCells)) + rand(g);\n            // Control size\n            g *= 1. / (numCells * size);\n            d = min(d, dot(g, g));\n          }\n        }\n\n        return br * (smoothstep(.95, 1., (1. - sqrt(d))));\n      }\n\n      float fractalNoise(in vec2 coord, in float persistence, in float lacunarity) {    \n          float n = 0.;\n          float frequency = 3.;\n          float amplitude = 2.;\n          for (int o = 0; o < OCTAVES; ++o)\n          {\n              n += amplitude * snoise(coord * frequency);\n              amplitude *= persistence;\n              frequency *= lacunarity;\n          }\n          return n;\n      }\n\n      void main() {\n        vec2 coord = gl_FragCoord.xy / resolution.xy;\n        vec2 starCoord = gl_FragCoord.xy / resolution.yy - vec2(.5, 0);\n        vec3 color1 = RGB(10, 70, 50) * 1.5;\n        vec3 color2 = RGB(50, 0, 40) * 1.1;\n        float dist = distance(coord, vec2(0.5, 0.3)) * 1.5;\n\n        float time = -globalTime / 100.;\n\n        mat2 RotationMatrix = mat2(cos(time), sin(time), -sin(time), cos(time));\n        vec3 starField = stars(starCoord * RotationMatrix, 16., 0.03, 0.8) * vec3(.9, .9, .95);\n             starField += stars(starCoord * RotationMatrix, 40., 0.025, 1.0) * vec3(.9, .9, .95) * max(0.0, fractalNoise(starCoord * RotationMatrix, .5, .2));\n\n        vec3 aurora = RGB(0,255,130) * max(snoise(vec2((coord.x + sin(time)) * 15., coord.x * 40.)) * max((sin(10.0 * (coord.x + 2. * time)) *.1 + 1.26) - 2. * coord.y, 0.), 0.);\n        vec3 aurora2 = RGB(0,235,170) * max(snoise(vec2((.09 * coord.x + sin(time * .5)) * 15., coord.x * 1.)) * max((sin(5.0 * (coord.x + 1.5 * time)) *.1 + 1.28) - 2. * coord.y, 0.), 0.);\n\n        vec3 result = starField + aurora * aurora2.g * 3.5 + aurora2;\n\n        gl_FragColor = vec4(mix(color1, color2, dist), 1.0);\n        gl_FragColor.rgb += result;\n      }\n\n    ',
+  uniforms: {
+    resolution: { value: new THREE.Vector2(window.innerWidth * window.devicePixelRatio, window.innerHeight * window.devicePixelRatio) },
+    globalTime: { value: performance.now() / 1000 }
+  },
+  side: THREE.BackSide
+}, _temp);
+var MountainMaterial = (_temp2 = _class2 = function (_THREE$ShaderMaterial) {
+  _inherits(MountainMaterial, _THREE$ShaderMaterial);
+
+  function MountainMaterial() {
+    _classCallCheck(this, MountainMaterial);
+
+    return _possibleConstructorReturn(this, _THREE$ShaderMaterial.call(this, MountainMaterial.shader));
+  }
+
+  return MountainMaterial;
+}(THREE.ShaderMaterial), _class2.shader = {
+  vertexShader: '\n      uniform vec3 mvPosition;\n\n      varying vec2 vUv;\n      varying float fogDepth;\n\n      void main() {\n        fogDepth = -mvPosition.z;\n        vUv = uv;\n        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);\n      }\n    ',
+  fragmentShader: '\n      #ifdef GL_ES\n      precision mediump float;\n      #endif\n\n      varying vec2 vUv;\n\n      #include <fog_pars_fragment>\n\n      float random(vec2 co) {\n          return fract(sin(dot(co.xy, vec2(12.9898,78.233))) * 43758.5453);\n      }\n\n      vec2 rand2(vec2 p)\n      {\n          p = vec2(dot(p, vec2(12.9898,78.233)), dot(p, vec2(26.65125, 83.054543))); \n          return fract(sin(p) * 43758.5453);\n      }\n\n      float rand(vec2 p)\n      {\n          return fract(sin(dot(p.xy ,vec2(54.90898,18.233))) * 4337.5453);\n      }\n\n      void main() {\n        float offset = random(vec2(gl_FragCoord.w));\n        vec2 c = vUv;\n        vec2 p = vUv;\n        p *= .3;\n        p.y = p.y * 30. - 4.;\n        p.x = p.x * (80. * offset) + 14.8 * offset;\n        vec2 q = (p - vec2(0.5,0.5)) * 1.;\n        // p = q;\n        vec3 col = vec3(0.);\n\n        float h = max(\n          .0,\n          max(\n            max(\n              abs(fract(p.x)-.5)-.25, \n              3.*(abs(fract(.7*p.x+.4)-.5)-.4) \n            ),\n            max(\n              1.2*(abs(fract(.8*p.x+.6)-.5)-.2), \n              .3*(abs(fract(.5*p.x+.2)-.5)) \n            ) \n          )\n        );\n        float fill = 1.0 - smoothstep(h, h+.001, p.y);\n\n        vec3 col2 = col * min(fill, 2.0);\n\n        gl_FragColor = vec4(col2, fill);\n\n        #ifdef USE_FOG\n          #ifdef USE_LOGDEPTHBUF_EXT\n            float depth = gl_FragDepthEXT / gl_FragCoord.w;\n          #else\n            float depth = gl_FragCoord.z / gl_FragCoord.w;\n          #endif\n          float fogFactor = smoothstep(fogNear, fogFar, depth);\n          gl_FragColor.rgb = mix(gl_FragColor.rgb, fogColor, fogFactor);\n        #endif\n      }\n    ',
+  uniforms: THREE.UniformsLib.fog,
+  fog: true,
+  transparent: true
+}, _temp2);
+var TreeMaterial = (_temp3 = _class3 = function (_THREE$RawShaderMater2) {
+  _inherits(TreeMaterial, _THREE$RawShaderMater2);
+
+  function TreeMaterial() {
+    _classCallCheck(this, TreeMaterial);
+
+    var _this3 = _possibleConstructorReturn(this, _THREE$RawShaderMater2.call(this, TreeMaterial.shader));
+
+    _this3.loop = function (timestamp) {
+      requestAnimationFrame(_this3.loop);
+      _this3.uniforms.globalTime.value = timestamp / 1000;
+    };
+
+    requestAnimationFrame(_this3.loop);
+    return _this3;
+  }
+
+  return TreeMaterial;
+}(THREE.RawShaderMaterial), _class3.shader = {
+  vertexShader: '\n      attribute vec3 position;\n      attribute vec2 uv;\n\n      uniform mat4 projectionMatrix;\n      uniform mat4 modelViewMatrix;\n\n      varying vec2 vUv;\n\n      void main() {\n        vUv = uv;\n        gl_Position = projectionMatrix * modelViewMatrix * vec4(position,1.0);\n      }\n    ',
+  fragmentShader: '\n      #ifdef GL_ES\n      precision mediump float;\n      #endif\n\n      #define RGB(r, g, b) vec3(float(r) / 255.0, float(g) / 255.0, float(b) / 255.0)\n\n      uniform float globalTime;\n\n      varying vec2 vUv;\n\n      float treeFill(in float size, in vec2 offset) {\n        vec2 p = vUv;\n        vec2 q = p - vec2(0.5,0.5);\n          vec2 q1 = 100.0 / size * q - offset;\n          float r= mod(-0.8*q1.y,1.-0.06*q1.y) * -0.05*q1.y - .1*q1.y;\n          float fill = (1.0 - smoothstep(r, r+0.001, abs(q1.x+0.5*sin(0.9 * globalTime + p.x * 25.0)*(1.0 + q1.y/13.0)))) * smoothstep(0.0, 0.01, q1.y + 13.0);\n          return fill;\n      }\n\n      vec4 tree(in float size, in vec2 offset) {\n        float glowDist = 0.12;\n        vec3 glowColor = RGB(11, 115, 95);\n        float tree = treeFill(size, offset);\n        float treeGlow = treeFill(size, vec2(offset.x + glowDist, offset.y));\n        return max(vec4(glowColor * (treeGlow - tree), treeGlow), vec4(0.0));\n      }\n\n      void main() {\n        vec2 c = vUv;\n        vec2 p = vUv;\n        p *= 0.3;\n        p.y = p.y * 30.0 - 4.0;\n        p.x = p.x * 30.0;\n        vec2 q = (p - vec2(0.5,0.5)) * 5.5;\n\n        vec4 col = tree(1.0, vec2(-30.0, 7.0));\n              col += tree(1.2, vec2(-15.0, 8.0));\n              col += tree(1.1, vec2(-12.0, 4.0));\n              col += tree(1.0, vec2(-9.0, 6.0));\n              col += tree(1.1, vec2(-10.0, 3.0));\n              col += tree(1.0, vec2(-3.0, 4.0));\n              col += tree(1.1, vec2(-1.5, 5.0));\n              col += tree(1.0, vec2(5.0, 3.0));\n              col += tree(1.3, vec2(12.0, 8.0));\n              col += tree(0.9, vec2(15.0, 7.0));\n              col += tree(1.0, vec2(18.0, 7.0));\n              col += tree(1.1, vec2(26.0, 7.0));\n\n        gl_FragColor = vec4(max(col.rgb * p.y, vec3(0.0)), col.a);\n      }\n    ',
+  uniforms: {
+    globalTime: { value: performance.now() / 1000 }
+  },
+  transparent: true
+}, _temp3);
+
+var Scene = function Scene() {
+  var _this4 = this;
+
+  _classCallCheck(this, Scene);
+
+  this.onWindowResize = function () {
+    _this4.camera.aspect = window.innerWidth / window.innerHeight;
+    _this4.camera.updateProjectionMatrix();
+    _this4.renderer.setSize(window.innerWidth, window.innerHeight);
+  };
+
+  this.update = function (timestamp) {
+    requestAnimationFrame(_this4.update);
+    _this4.renderer.render(_this4.scene, _this4.camera);
+  };
+
+  this.camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 5000);
+  this.camera.position.z = 40;
+
+  this.scene = new THREE.Scene();
+  this.scene.fog = new THREE.Fog(0xFF00FF, 40, 180);
+
+  this.renderer = new THREE.WebGLRenderer({
+    antialias: true
+  });
+  this.renderer.setPixelRatio(window.devicePixelRatio);
+  this.renderer.setSize(window.innerWidth, window.innerHeight);
+  document.body.appendChild(this.renderer.domElement);
+
+  this.clock = new THREE.Clock();
+
+  window.addEventListener('resize', this.onWindowResize);
+
+  var backgroundGeometry = new THREE.SphereGeometry(4000, 32, 15);
+  var backgroundMaterial = new BackgroundMaterial();
+  var background = new THREE.Mesh(backgroundGeometry, backgroundMaterial);
+  this.scene.add(background);
+
+  var treeGeometry = new THREE.PlaneGeometry(200, 200, 1, 1);
+  var treeMaterial = new TreeMaterial();
+  this.tree = new THREE.Mesh(treeGeometry, treeMaterial);
+  this.tree.position.z = 0.1;
+  this.scene.add(this.tree);
+
+  MountainMaterial.uniforms = {
+    fogColor: { value: this.scene.fog.color },
+    fogNear: { value: this.scene.fog.near },
+    fogFar: { value: this.scene.fog.far }
+  };
+  var mountainMaterial = new MountainMaterial();
+  var mountainGeometry = new THREE.PlaneGeometry(600, 200, 1, 1);
+  var mountain = new THREE.Mesh(mountainGeometry, mountainMaterial);
+  mountain.position.set(0, 0, 0);
+  var mountain2 = new THREE.Mesh(mountainGeometry, mountainMaterial);
+  mountain2.position.set(0, -2, -26);
+  var mountain3 = new THREE.Mesh(mountainGeometry, mountainMaterial);
+  mountain3.position.set(0, 0, -35);
+  this.scene.add(mountain);
+  this.scene.add(mountain2);
+  this.scene.add(mountain3);
+
+  requestAnimationFrame(this.update);
+};
+
+new Scene();	
+</script><canvas width="1600" height="718" style="width: 1600px; height: 718px;"></canvas>
+
+
+</body></html>

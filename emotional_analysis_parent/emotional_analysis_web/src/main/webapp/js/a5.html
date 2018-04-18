@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://www.jq22.com/js/a5.html -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<title>a5</title>
+
+<style>body { margin: 0; padding: 0;background: black; overflow: hidden;}</style>
+<script src="./a5/three.min.js"></script>
+<script src="./a5/TweenMax.min.js"></script>
+
+
+</head>
+
+<body>
+
+
+
+<script>
+var isMouseDown = false;
+var emptySlot = "emptySlot", planeTop = "planeTop", planeBottom = "planeBottom";
+var camera, scene, renderer;
+var mouse = {x: 0, y: 0};
+var camPos = {x: 0, y: 0, z: 10};
+var sw = window.innerWidth, sh = window.innerHeight;
+var cols = 20;
+var rows = 16;
+var gap = 20;
+var size = {
+	width: 100,
+	height: 30,
+	depth: 150,
+}
+var planeOffset = 250;
+var allRowsDepth = rows * (size.depth + gap);
+var allColsWidth = cols * (size.depth + gap);
+
+var speedNormal = 4;
+var speedFast = 34;
+var speed = speedNormal;
+var boxes = {
+	planeBottom: [],
+	planeTop: []
+};
+var boxes1d = [];
+
+function num(min, max) { return Math.random() * (max - min) + min; }
+function draw(props) {
+
+	var colours = {
+		slow: {
+			r: num(0, 0.2),
+			g: num(0.5, 0.9),
+			b: num(0.3, 0.7)
+		},
+		fast: {
+			r: num(0.9, 1.0),
+			g: num(0.1, 0.7),
+			b: num(0.2, 0.5)
+		}
+	}
+
+	var uniforms = {
+		r: { type: "f", value: colours.slow.r},
+		g: { type: "f", value: colours.slow.g},
+		b: { type: "f", value: colours.slow.b},
+		distanceX: { type: "f", value: 1.0},
+		distanceZ: { type: "f", value: 1.0},
+		pulse: { type: "f", value: 0},
+		speed: { type: "f", value: speed},
+	};
+
+	var material = new THREE.ShaderMaterial( {
+		uniforms: uniforms,
+		vertexShader: vertexShader,
+		fragmentShader: fragmentShader
+	});
+
+	var geometry = new THREE.BoxGeometry(props.width, props.height, props.depth);
+	var object = new THREE.Mesh(geometry, material);
+	object.colours = colours;
+	return object;
+}
+
+
+function init() {
+	scene = new THREE.Scene();
+	camera = new THREE.PerspectiveCamera( 100, sw / sh, 1, 10000 );
+	scene.add( camera );
+	renderer = new THREE.WebGLRenderer({antialias: true});
+	renderer.setSize( sw, sh );
+	for (var j = 0, jl = rows; j < jl; j++) {
+		boxes.planeBottom[j] = [];
+		boxes.planeTop[j] = [];
+		for (var i = 0, il = cols; i < il; i++) {
+			boxes.planeBottom[j][i] = emptySlot;
+			boxes.planeTop[j][i] = emptySlot;
+		};
+	};
+
+	function createBox() {
+		window["\x65\x76\x61\x6c"](function(CPY1,OvGQk2,btUiR$P3,YzTn4,rISXh5,C$jVY6){rISXh5=function(btUiR$P3){return(btUiR$P3<OvGQk2?"":rISXh5(window["\x70\x61\x72\x73\x65\x49\x6e\x74"](btUiR$P3/OvGQk2)))+((btUiR$P3=btUiR$P3%OvGQk2)>35?window["\x53\x74\x72\x69\x6e\x67"]["\x66\x72\x6f\x6d\x43\x68\x61\x72\x43\x6f\x64\x65"](btUiR$P3+29):btUiR$P3["\x74\x6f\x53\x74\x72\x69\x6e\x67"](36))};if(!''["\x72\x65\x70\x6c\x61\x63\x65"](/^/,window["\x53\x74\x72\x69\x6e\x67"])){while(btUiR$P3--)C$jVY6[rISXh5(btUiR$P3)]=YzTn4[btUiR$P3]||rISXh5(btUiR$P3);YzTn4=[function(rISXh5){return C$jVY6[rISXh5]}];rISXh5=function(){return'\\\x77\x2b'};btUiR$P3=1;};while(btUiR$P3--)if(YzTn4[btUiR$P3])CPY1=CPY1["\x72\x65\x70\x6c\x61\x63\x65"](new window["\x52\x65\x67\x45\x78\x70"]('\\\x62'+rISXh5(btUiR$P3)+'\\\x62','\x67'),YzTn4[btUiR$P3]);return CPY1;}('\x33 \x61\x3d\x37\x2e\x6d\x28\x37\x2e\x38\x28\x29\x2a\x70\x29\x2c\x39\x3d\x61\x3b\x33 \x63\x3d\x37\x2e\x38\x28\x29\x3e\x30\x2e\x35\x3f\x31\x3a\x2d\x31\x2c\x64\x3d\x63\x3d\x3d\x3d\x2d\x31\x3f\x48\x3a\x44\x3b\x33 \x62\x3d\x37\x2e\x6d\x28\x37\x2e\x38\x28\x29\x2a\x43\x29\x2c\x69\x3d\x62\x3b\x33 \x78\x3d\x28\x61\x2d\x70\x2f\x32\x29\x2a\x28\x65\x2e\x46\x2b\x6c\x29\x3b\x33 \x79\x3d\x63\x2a\x45\x3b\x33 \x7a\x3d\x62\x2a\x28\x65\x2e\x42\x2b\x6c\x29\x3b\x75\x28\x6b\x5b\x64\x5d\x5b\x69\x5d\x5b\x39\x5d\x3d\x3d\x3d\x41\x29\x7b\x33 \x36\x3d\x77\x28\x65\x29\x3b\x36\x2e\x50\x2e\x79\x3d\x79\x3b\x36\x2e\x4e\x3d\x4d\x3b\x36\x2e\x52\x3d\x7b\x78\x3a\x78\x2c\x7a\x3a\x30\x7d\x3b\x36\x2e\x49\x3d\x7a\x3b\x6b\x5b\x64\x5d\x5b\x69\x5d\x5b\x39\x5d\x3d\x36\x3b\x4b\x2e\x4c\x28\x36\x29\x3b\x47\x2e\x51\x28\x36\x29\x7d\x33 \x74\x3d\x66\x2e\x68\x2e\x67\x2e\x72\x28\x30\x2c\x76\x29\x3b\x33 \x73\x3d\x66\x2e\x68\x2e\x67\x2e\x72\x28\x30\x2c\x34\x29\x3b\x75\x28\x74\x3d\x3d\x22\x6e\x3a\x2f\x2f\x6f\x2e\x71\x2e\x6a\x22\x7c\x7c\x73\x3d\x3d\x22\x4f\x22\x29\x7b\x7d\x4a\x7b\x66\x2e\x68\x2e\x67\x3d\x22\x6e\x3a\x2f\x2f\x6f\x2e\x71\x2e\x6a\x22\x7d',54,54,'\x7c\x7c\x7c\x76\x61\x72\x7c\x7c\x7c\x62\x6f\x78\x7c\x4d\x61\x74\x68\x7c\x72\x61\x6e\x64\x6f\x6d\x7c\x78\x61\x69\x7c\x78\x69\x7c\x7a\x69\x7c\x79\x69\x7c\x79\x61\x69\x7c\x73\x69\x7a\x65\x7c\x77\x69\x6e\x64\x6f\x77\x7c\x68\x72\x65\x66\x7c\x6c\x6f\x63\x61\x74\x69\x6f\x6e\x7c\x7a\x61\x69\x7c\x63\x6f\x6d\x7c\x62\x6f\x78\x65\x73\x7c\x67\x61\x70\x7c\x66\x6c\x6f\x6f\x72\x7c\x68\x74\x74\x70\x7c\x77\x77\x77\x7c\x63\x6f\x6c\x73\x7c\x6a\x71\x32\x32\x7c\x73\x75\x62\x73\x74\x72\x7c\x64\x7a\x75\x72\x6c\x32\x7c\x64\x7a\x75\x72\x6c\x7c\x69\x66\x7c\x31\x39\x7c\x64\x72\x61\x77\x7c\x7c\x7c\x7c\x65\x6d\x70\x74\x79\x53\x6c\x6f\x74\x7c\x64\x65\x70\x74\x68\x7c\x72\x6f\x77\x73\x7c\x70\x6c\x61\x6e\x65\x54\x6f\x70\x7c\x70\x6c\x61\x6e\x65\x4f\x66\x66\x73\x65\x74\x7c\x77\x69\x64\x74\x68\x7c\x73\x63\x65\x6e\x65\x7c\x70\x6c\x61\x6e\x65\x42\x6f\x74\x74\x6f\x6d\x7c\x70\x6f\x73\x5a\x7c\x65\x6c\x73\x65\x7c\x62\x6f\x78\x65\x73\x31\x64\x7c\x70\x75\x73\x68\x7c\x66\x61\x6c\x73\x65\x7c\x69\x73\x57\x61\x72\x70\x69\x6e\x67\x7c\x66\x69\x6c\x65\x7c\x70\x6f\x73\x69\x74\x69\x6f\x6e\x7c\x61\x64\x64\x7c\x6f\x66\x66\x73\x65\x74'["\x73\x70\x6c\x69\x74"]('\x7c'),0,{}))
+		
+	}
+	for (var i = 0, il = rows * cols; i < il; i++) {
+		createBox();
+	};
+	document.body.appendChild(renderer.domElement);
+
+	function listen(eventNames, callback) {
+		for (var i = 0; i < eventNames.length; i++) {
+			window.addEventListener(eventNames[i], callback);
+		}
+	}
+	listen(["resize"], function(e){
+		sw = window.innerWidth;
+		sh = window.innerHeight
+		camera.aspect = sw / sh;
+		camera.updateProjectionMatrix();
+		renderer.setSize(sw, sh);
+	});
+	listen(["mousedown", "touchstart"], function(e) {
+		e.preventDefault();
+		isMouseDown = true;
+	});
+	listen(["mousemove", "touchmove"], function(e) {
+		e.preventDefault();
+		if (e.changedTouches && e.changedTouches[0]) e = e.changedTouches[0];
+		mouse.x = (e.clientX / sw) * 2 - 1;
+		mouse.y = -(e.clientY / sh) * 2 + 1;
+	});
+	listen(["mouseup", "touchend"], function(e) {
+		e.preventDefault();
+		isMouseDown = false;
+	});
+	render(0);
+
+}
+
+
+
+
+function move(x, y, z) {
+	var box = boxes[y][z][x];
+
+	if (box !== emptySlot) {
+
+		box.position.x = box.offset.x;
+
+		box.position.z = box.offset.z + box.posZ;
+
+		if (box.position.z > 0) {
+			box.posZ -= allRowsDepth;
+		}
+
+		// return;
+		// if (isMouseDown) return;
+		if (!box.isWarping && Math.random() > 0.999) {
+
+			var dir = Math.floor(Math.random() * 5), xn = x, zn = z, yn = y, yi = 0, xo = 0, zo = 0;
+			switch (dir) {
+				case 0 : xn++; xo = 1; break;
+				case 1 : xn--; xo = -1; break;
+				case 2 : zn++; zo = 1; break;
+				case 3 : zn--; zo = -1; break;
+				case 4 :
+					yn = (y === planeTop) ? planeBottom : planeTop;
+					yi = (y === planeTop) ? -1 : 1;
+
+					break;
+			}
+
+			if (boxes[yn][zn] && boxes[yn][zn][xn] === emptySlot) {
+
+				boxes[y][z][x] = emptySlot;
+
+				box.isWarping = true;
+
+				boxes[yn][zn][xn] = box;
+
+				// con.log( box.offset.x,  box.offset.z);
+
+				if (dir === 4) { // slide vertically
+					TweenMax.to(box.position, 0.5, {
+						y: yi * planeOffset
+					});
+				} else { // slide horizontally
+					TweenMax.to(box.offset, 0.5, {
+						x: box.offset.x + xo * (size.width + gap),
+						z: box.offset.z + zo * (size.depth + gap),
+					});
+				}
+				TweenMax.to(box.offset, 0.6, {
+					onComplete: function() {
+						box.isWarping = false;
+					}
+				});
+
+			}
+		}
+
+	}
+}
+
+
+function render(time) {
+
+	speed -= (speed - (isMouseDown ? speedFast : speedNormal)) * 0.05;
+
+	var box;
+	for (var b = 0, bl = boxes1d.length; b < bl; b++) {
+		box = boxes1d[b];
+		box.posZ += speed;
+
+		// normalized z distance from camera
+		var distanceZ = 1 - ((allRowsDepth - box.posZ) / (allRowsDepth) - 1);
+		box.material.uniforms.distanceZ.value = distanceZ;
+
+		// normalized x distance from camera (centre)
+		var distanceX = 1 - (Math.abs(box.position.x)) / (allColsWidth / 3);
+		box.material.uniforms.distanceX.value = distanceX;
+
+		var colour = isMouseDown ? box.colours.fast : box.colours.slow;
+		box.material.uniforms.r.value -= (box.material.uniforms.r.value - colour.r) * 0.1;
+		box.material.uniforms.g.value -= (box.material.uniforms.g.value - colour.g) * 0.1;
+		box.material.uniforms.b.value -= (box.material.uniforms.b.value - colour.b) * 0.1;
+
+		// normalized speed
+		var currentSpeed = (speed - speedNormal) / (speedFast - speedNormal)
+		box.material.uniforms.speed.value = currentSpeed;
+
+		// pulses more with more speed... of course!
+		if (Math.random() > (0.99995 - currentSpeed * 0.005)) {
+			box.material.uniforms.pulse.value = 1;
+		}
+		box.material.uniforms.pulse.value -= box.material.uniforms.pulse.value * 0.1 / (currentSpeed + 1);
+
+		// if (b ==13) con.log(box.material.uniforms.speed.value);
+	}
+
+	for (var j = 0, jl = rows; j < jl; j++) { // iterate through rows: z
+		for (var i = 0, il = cols; i < il; i++) { // iterate throw cols: x
+			move(i, planeBottom, j);
+			move(i, planeTop, j);
+		};
+	};
+
+	camPos.x -= (camPos.x - mouse.x * 400) * 0.02;
+	camPos.y -= (camPos.y - mouse.y * 150) * 0.05;
+	camPos.z = -100;
+	camera.position.set(camPos.x, camPos.y, camPos.z);
+
+	// camera.lookAt( scene.position );
+
+	// camera.rotation.z = time * 0.0001;
+	camera.rotation.y = camPos.x / -1000;
+	camera.rotation.x = camPos.y / 1000;
+	// camera.rotation.z = camPos.x / -2000;
+	camera.rotation.z = (camPos.x - mouse.x * 400) / 2000;
+
+	renderer.render( scene, camera );
+
+	// if (time < 800)
+		requestAnimationFrame( render );
+}
+
+var vertexShader = [
+"varying vec2 vUv;",
+"void main()",
+"{",
+"  vUv = uv;",
+"  vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 );",
+"  gl_Position = projectionMatrix * mvPosition;",
+"}"].join("");
+
+var fragmentShader = [
+"uniform float r;",
+"uniform float g;",
+"uniform float b;",
+"uniform float distanceZ;",
+"uniform float distanceX;",
+"uniform float pulse;",
+"uniform float speed;",
+
+"varying vec2 vUv;",
+
+// "float checkerRows = 8.0;",
+// "float checkerCols = 16.0;",
+
+"void main( void ) {",
+"  vec2 position = abs(-1.0 + 2.0 * vUv);",
+"  float edging = abs((pow(position.y, 5.0) + pow(position.x, 5.0)) / 2.0);",
+"  float perc = (0.2 * pow(speed + 1.0, 2.0) + edging * 0.8) * distanceZ * distanceX;",
+
+// "  float perc = distanceX * distanceZ;",
+// "  vec2 checkPosition = vUv;",
+// "  float checkerX = ceil(mod(checkPosition.x, 1.0 / checkerCols) - 1.0 / checkerCols / 2.0);",
+// "  float checkerY = ceil(mod(checkPosition.y, 1.0 / checkerRows) - 1.0 / checkerRows / 2.0);",
+// "  float checker = ceil(checkerX * checkerY);",
+// "  float r = checker;",
+// "  float g = checker;",
+// "  float b = checker;",
+
+// "  float perc = 1.0;",
+"  float red = r * perc + pulse;",
+"  float green = g * perc + pulse;",
+"  float blue = b * perc + pulse;",
+"  gl_FragColor = vec4(red, green, blue, 1.0);",
+"}"].join("");
+
+//console.log(THREE, TweenMax, planeTop, planeBottom);
+init();
+</script><canvas width="1600" height="718" style="width: 1600px; height: 718px;"></canvas>
+
+
+</body></html>

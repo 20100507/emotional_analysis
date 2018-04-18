@@ -19,6 +19,9 @@ import org.jsoup.Connection.Response;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * 评论的获取
+ */
 public class ForkJoinCalculate extends RecursiveTask<Long>{
 
 	private static final long serialVersionUID = -8181835567800469776L;
@@ -63,8 +66,6 @@ public class ForkJoinCalculate extends RecursiveTask<Long>{
 						String string = execute.body().toString();
 						ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 						CommentBean readValue = objectMapper.readValue(string.getBytes(), CommentBean.class);
-//						long total = readValue.getTotal();
-//						pageSize = total / 10;
 						List<Comments> comments = readValue.getComments();
 						for (Comments comments2 : comments) {
 							String content = comments2.getContent();
@@ -115,8 +116,6 @@ public class ForkJoinCalculate extends RecursiveTask<Long>{
 						String string = execute.body().toString();
 						ObjectMapper objectMapper = new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 						CommentBean readValue = objectMapper.readValue(string.getBytes(), CommentBean.class);
-//						long total = readValue.getTotal();
-//						pageSize = total / 10;
 						List<Comments> comments = readValue.getComments();
 						for (Comments comments2 : comments) {
 							String content = comments2.getContent();

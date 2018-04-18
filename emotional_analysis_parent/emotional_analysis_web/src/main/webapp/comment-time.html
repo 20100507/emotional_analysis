@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html style="height: 100%">
+   <head>
+       <meta charset="utf-8">
+   </head>
+   <body style="height: 90%; margin: 0" background="white">
+       <div id="Map" style="height: 100%;width: 100%">
+       </div>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-stat/ecStat.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/dataTool.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/china.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/map/js/world.js"></script>
+       <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
+       <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
+       <script src="http://www.jq22.com/jquery/jquery-1.10.2.js"></script>
+<script>
+
+
+$("#Map").click(function(){ 
+	 $.get("http://localhost/comment/time", 
+	    function(result){
+		 var chart=echarts.init(document.getElementById("Map"))
+				option = {
+    xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        data: ['0:00', '1:00', '2:00', '3:00', 
+        	   '4:00', '5:00', '6:00','7:00',
+        	   '8:00', '9:00', '10:00', '11:00',
+        	   '12:00', '13:00','14:00', '15:00',
+        	   '16:00', '17:00', '18:00', '19:00',
+        	   '20:00','21:00', '22:00', '23:00']
+    },
+    tooltip : {
+        trigger: 'axis',
+        axisPointer: {
+            type: 'cross',
+            label: {
+                backgroundColor: '#6a7985'
+            }
+        }
+    },
+    yAxis: {
+        type: 'value'
+    },
+    series: [{
+        data: result,
+        type: 'line',
+        areaStyle: {normal: {}}
+    }]
+};
+	   chart.setOption(option)
+	　　});
+});
+$('#Map').trigger("click");
+</script>
+   </body>
+</html>

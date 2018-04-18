@@ -2,7 +2,10 @@ package org.bianqi.thread;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.Queue;
 
+import org.bianqi.entity.SongEntity;
+import org.bianqi.queue.SongQueue;
 import org.bianqi.utils.DataSourceUtils;
 import org.jsoup.Connection.Response;
 import org.jsoup.Jsoup;
@@ -24,12 +27,11 @@ public class SongThread implements Runnable {
 
 	private long singStartId;
 	private long singEndId;
-//	private FileOutputStream fileOutputStream;
-
-	public SongThread(long singStartId, long singEndId, String file) throws Exception {
+    public Queue<String> instance;
+	public SongThread(long singStartId, long singEndId,Queue<String> instance) throws Exception {
 		this.singStartId = singStartId;
+		this.instance = instance;
 		this.singEndId = singEndId;
-//		fileOutputStream = new FileOutputStream(new File(file));
 	}
 
 	@Override
@@ -43,12 +45,8 @@ public class SongThread implements Runnable {
 							.header("Cache-Control", "no-cache").timeout(2000000000).execute();
 					String body = execute.body();
 					if (body.contains("很抱歉，你要查找的网页找不到")) {
-//						byte[] bytes = (i + "----------------").getBytes();
 						System.out.println("当前线程为:" + Thread.currentThread().getName() + "爬取到歌曲ID：" + singStartId
 								+ "=============很抱歉，你要查找的网页找不到");
-//						IOUtils.write(bytes, fileOutputStream);
-//						byte[] bytes2 = "\r\n".getBytes();
-//						IOUtils.write(bytes2, fileOutputStream);
 						continue;
 					}
 					Document parse = execute.parse();
@@ -67,13 +65,12 @@ public class SongThread implements Runnable {
 					Node albumChildNode = albumElement.childNode(0);
 					String album = albumChildNode.toString();
 					String url = "http://music.163.com/m/song?id="+singStartId;
-					//推送到队列 为取评论 做准备
-//					SongQueue.getInstance();
-//					SongQueue.pushSong(new SongEntity(i, name));
 					System.out.println("当前线程为:" + Thread.currentThread().getName() + "采集歌曲ID为：" + singStartId
 							+ "=============歌曲名称为：" + name);
+					SongQueue.addMusicList(Long.toString(singStartId));
 					//歌曲持久化
 					Connection currentConnection = DataSourceUtils.getCurrentConnection();
+					
 					String sql = "insert into song (name,singer,album,url) values(?,?,?,?)";
 					PreparedStatement pstmt = currentConnection.prepareStatement(sql);
 			        pstmt.setString(1, name);
@@ -81,25 +78,14 @@ public class SongThread implements Runnable {
 			        pstmt.setString(3, album);
 			        pstmt.setString(4, url);
 			        pstmt.executeUpdate();
-			       
-			        //文件持久化
-//			        byte[] bytes = ("http://music.163.com/m/song?id=" + i + "  \n" + name + "\n" + singer
-//							+ "\n" + album).getBytes();
-//					IOUtils.write(bytes, fileOutputStream);
-//					byte[] bytes2 = "\r\n".getBytes();
-//					IOUtils.write(bytes2, fileOutputStream);
 				} else {
 					Response execute = Jsoup.connect("http://music.163.com/m/song?id=" + singStartId)
 							.header("User-Agent", "Mozilla/5.0 (Windows NT 6.3; W…) Gecko/20100101 Firefox/56.0")
 							.header("Cache-Control", "no-cache").timeout(2000000000).execute();
 					String body = execute.body();
 					if (body.contains("很抱歉，你要查找的网页找不到")) {
-//						byte[] bytes = (i + "----------------").getBytes();
 						System.out.println("当前线程为:" + Thread.currentThread().getName() + "爬取到歌曲ID：" + singStartId
 								+ "=============很抱歉，你要查找的网页找不到");
-//						IOUtils.write(bytes, fileOutputStream);
-//						byte[] bytes2 = "\r\n".getBytes();
-//						IOUtils.write(bytes2, fileOutputStream);
 						continue;
 					}
 					Document parse = execute.parse();
@@ -117,9 +103,7 @@ public class SongThread implements Runnable {
 					Node albumChildNode = albumElement.childNode(0);
 					String album = albumChildNode.toString();
 					String url = "http://music.163.com/m/song?id="+singStartId;
-					//推送到队列 为取评论 做准备
-//					SongQueue.getInstance();
-//					SongQueue.pushSong(new SongEntity(i, name));
+					SongQueue.addMusicList(Long.toString(singStartId));
 					System.out.println("当前线程为:" + Thread.currentThread().getName() + "采集歌曲ID为：" + singStartId
 							+ "=============歌曲名称为：" + name);
 					Connection currentConnection = DataSourceUtils.getCurrentConnection();
@@ -130,22 +114,10 @@ public class SongThread implements Runnable {
 			        pstmt.setString(3, album);
 			        pstmt.setString(4, url);
 			        pstmt.executeUpdate();
-//			        pstmt.close();
-//			        currentConnection.close();
-//					byte[] bytes = ("http://music.163.com/m/song?id=" + i + "  \n" + name + "\n" + singer
-//							+ "\n" + album).getBytes();
-//					IOUtils.write(bytes, fileOutputStream);
-//					byte[] bytes2 = "\r\n".getBytes();
-//					IOUtils.write(bytes2, fileOutputStream);
 				}
 			}
 		} catch (Exception e) {
-			singStartId --;
-			String name = Thread.currentThread().getName();
-			System.err.println("当前抛异常的线程为"+name+"=====================================");
-			this.run();
-			System.err.println("当前抛异常的线程为"+name+"================继续运行===============");
+			e.printStackTrace();
 		}
 	}
-
 }

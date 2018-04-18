@@ -58,5 +58,14 @@
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
+		<!-- HDFS文件上傳 -->
+		<dependency>
+			<groupId>org.apache.hadoop</groupId>
+			<artifactId>hadoop-client</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.janeluo</groupId>
+			<artifactId>ikanalyzer</artifactId>
+		</dependency>
 	</dependencies>
 </project>

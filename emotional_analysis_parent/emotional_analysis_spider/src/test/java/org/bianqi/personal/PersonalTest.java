@@ -1,6 +1,11 @@
 package org.bianqi.personal;
 
+import java.math.BigInteger;
+import java.security.SecureRandom;
+
+import org.bianqi.utils.EncryptUtils;
 import org.jsoup.Jsoup;
+import org.jsoup.Connection.Method;
 import org.jsoup.Connection.Response;
 import org.junit.Test;
 
@@ -23,9 +28,43 @@ public class PersonalTest {
 	 */
 	@Test
 	public void test2() throws Exception{
-	    Response execute = Jsoup.connect("http://music.163.com/user/home?id=2768563")
-				.ignoreContentType(true).execute();
+		System.setProperty("http.maxRedirects", "5000");
+		System.getProperties().setProperty("proxySet", "true");
+		// 如果不设置，只要代理IP和代理端口正确,此项不设置也可以
+		System.getProperties().setProperty("http.proxyHost", "139.224.80.139");
+		System.getProperties().setProperty("http.proxyPort", "3128");
+		String secKey = new BigInteger(100, new SecureRandom()).toString(32).substring(0, 16);
+        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"uid\":2763211,\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
+        String encSecKey = EncryptUtils.rsaEncrypt(secKey);
+	    Response execute = Jsoup.connect("http://music.163.com/weapi/user/playlist")
+				.data("params",encText)
+				.data("encSecKey",encSecKey)
+				.method(Method.POST).ignoreContentType(true).execute();
 		String string = execute.body().toString();
 		System.out.println(string);
 	}
+	
+	/**
+	 * 个人动态
+	 * @throws Exception
+	 */
+	@Test
+	public void test3() throws Exception{
+		String secKey = new BigInteger(100, new SecureRandom()).toString(32).substring(0, 16);
+        String encText = EncryptUtils.aesEncrypt(EncryptUtils.aesEncrypt("{\"uid\":2763211,\"offset\":0,\"limit\":50};","0CoJUm6Qyw8W8jud"), secKey);
+        String encSecKey = EncryptUtils.rsaEncrypt(secKey);
+	    Response execute = Jsoup.connect("http://music.163.com/weapi/event/get/2763211")
+				.data("params",encText)
+				.data("encSecKey",encSecKey)
+				.method(Method.POST).ignoreContentType(true).execute();
+		String string = execute.body().toString();
+		System.out.println(string);
+	}
+
 }
+
+
+
+
+
+
