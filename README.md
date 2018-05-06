@@ -14,4 +14,4 @@
 10.用户年龄比例<br/>
 11.用户全国地理分布<br/>
 12.热评搜索等等..
-
+![Alt text](https://github.com/20100507/emotional_analysis/blob/master/p1.png)
