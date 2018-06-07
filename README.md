@@ -1,6 +1,11 @@
 # emotional_analysis
 基于Spark网易云音乐数据分析
 包含爬虫,Scala代码,Spark,Hadoop,elasticSearch,logstash,echarts,log4j<br/>
+
+emotional_analysis_spider     模块为爬虫模块<br/>
+emotional_analysis_web        数据处理模块(Scala代码)<br/>
+emotional_analysis_recommend  推荐模块没有来得及写<br/>
+emotional_analysis_web        报表展现模块<br/>
 ``分析内容``<br/>
 1.人物画像<br/>
 2.图计算<br/>
@@ -18,3 +23,5 @@
 ![Alt text](https://github.com/20100507/emotional_analysis/blob/master/Spark_1.png)
 ![Alt text](https://github.com/20100507/emotional_analysis/blob/master/azkaban_1.png)
 ![Alt text](https://github.com/20100507/emotional_analysis/blob/master/hadoop_1.png)
+![Alt text](https://github.com/20100507/emotional_analysis/blob/master/mysql_1.png)
+
