@@ -15,3 +15,6 @@
 11.用户全国地理分布<br/>
 12.热评搜索等等..
 ![Alt text](https://github.com/20100507/emotional_analysis/blob/master/p1.png)
+![Alt text](https://github.com/20100507/emotional_analysis/blob/master/Spark_1.png)
+![Alt text](https://github.com/20100507/emotional_analysis/blob/master/azkaban_1.png)
+![Alt text](https://github.com/20100507/emotional_analysis/blob/master/hadoop_1.png)
