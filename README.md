@@ -19,6 +19,8 @@ emotional_analysis_web        报表展现模块<br/>
 10.用户年龄比例<br/>
 11.用户全国地理分布<br/>
 12.热评搜索等等..
+![Alt text](https://github.com/20100507/emotional_analysis/blob/master/nest_2.png)
+![Alt text](https://github.com/20100507/emotional_analysis/blob/master/nest_1.png)
 ![Alt text](https://github.com/20100507/emotional_analysis/blob/master/p1.png)
 ![Alt text](https://github.com/20100507/emotional_analysis/blob/master/Spark_1.png)
 ![Alt text](https://github.com/20100507/emotional_analysis/blob/master/azkaban_1.png)
