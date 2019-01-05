@@ -1,0 +1,41 @@
+{
+    "logstash": {
+        "order": 0,
+        "template": "*",
+        "settings": {
+            "index": {
+                "refresh_interval": "5s"
+            }
+        },
+        "mappings": {
+            "into_es_type_define": {
+                "properties": {
+                    "@timestamp": {
+                        "include_in_all": false,
+                        "type": "date"
+                    },
+                    "@version": {
+                        "include_in_all": false,
+                        "type": "long"
+                    },
+                    "count": {
+                        "type": "long"
+                    },
+                    "songId": {
+                        "type": "long"
+                    },
+                    "userId": {
+                        "type": "long"
+                    },
+                    "content": {
+                        "norms": false,
+                        "analyzer": "ik_max_word",
+                        "type": "string"
+                     }
+                    }
+                }
+            
+        },
+        "aliases": {}
+    }
+}
