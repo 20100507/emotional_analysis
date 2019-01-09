@@ -1,6 +1,6 @@
 # emotional_analysis
 基于Spark网易云音乐数据分析
-包含爬虫,Scala代码,Spark,Hadoop,elasticSearch,logstash,echarts,log4j<br/>
+包含爬虫,Scala代码,Spark,Hadoop,ElasticSearch,logstash,Flume,echarts,log4j<br/>
 
 emotional_analysis_spider     爬虫模块<br/>
 emotional_analysis_web        数据处理模块(Scala代码)<br/>
