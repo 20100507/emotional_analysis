@@ -33,7 +33,7 @@
 		<pagehelper.version>5.1.2-beta</pagehelper.version>
 		<jsqlparser.version>0.9.1</jsqlparser.version>
 		<commons-fileupload.version>1.3.3</commons-fileupload.version>
-		<quartz.version>2.2.2</quartz.version>
+		<quartz.version>2.3.2</quartz.version>
 		<jsoup.version>1.10.2</jsoup.version>
 		<druid.version>1.0.9</druid.version>
 		<org.python.version>2.7.0</org.python.version>
