@@ -41,7 +41,7 @@
 		<com.googlecode.soundlibs.version>1.0.1-1</com.googlecode.soundlibs.version>
 		<uk.co.caprica.version>3.10.1</uk.co.caprica.version>
 		<org.apache.hadoop.version>2.7.3</org.apache.hadoop.version>
-		<org.elasticsearch.version>2.4.0</org.elasticsearch.version>
+		<org.elasticsearch.version>6.8.13</org.elasticsearch.version>
 		<com.alibaba.version>1.2.7</com.alibaba.version>
 		<com.janeluo.version>2012_u6</com.janeluo.version>
 	</properties>
