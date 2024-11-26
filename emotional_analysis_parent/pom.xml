@@ -36,7 +36,7 @@
 		<quartz.version>2.2.2</quartz.version>
 		<jsoup.version>1.10.2</jsoup.version>
 		<druid.version>1.0.9</druid.version>
-		<org.python.version>2.7.0</org.python.version>
+		<org.python.version>2.7.1</org.python.version>
 		<com.github.freeseawind.version>2.0.1</com.github.freeseawind.version>
 		<com.googlecode.soundlibs.version>1.0.1-1</com.googlecode.soundlibs.version>
 		<uk.co.caprica.version>3.10.1</uk.co.caprica.version>
