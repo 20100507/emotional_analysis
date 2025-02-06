@@ -1,5 +1,5 @@
 # emotional_analysis
-<h1> 可承接计算机毕业设计代码调试、代码部署、系统讲解；联系微信 bq2323599883</h1>
+<h1> 可承接计算机毕业设计代码调试、代码部署、系统讲解；</h1>
 
 基于Spark网易云音乐数据分析
 包含爬虫,Scala代码,Spark,Hadoop,ElasticSearch,logstash,Flume,echarts,log4j<br/>
